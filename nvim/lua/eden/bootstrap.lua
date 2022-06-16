@@ -109,7 +109,7 @@ end
 
 -- Initialize leader key to <space>, and `,` to localleader
 local function init_leader_keys()
-  vim.g.mapleader = " "
+  -- vim.g.mapleader = " "
   vim.g.maplocalleader = ","
 
   -- Clear mappings for leader keys to be reassigned later on in the config

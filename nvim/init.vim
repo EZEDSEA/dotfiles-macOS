@@ -60,6 +60,12 @@ set relativenumber
 " Highlight tabs and trailing whitespace
 set list listchars=tab:»·,trail:·,extends:>,precedes:<,nbsp:+
 
+"persistent undo for when vim is closed
+set undofile
+set history=10000 "the amount of : commands saved
+set undolevels=10000 "the amount undo levels saved
+set undodir=~/.config/.nvim/undo//
+
 " UTF encoding
 set encoding=utf-8
 
@@ -139,9 +145,9 @@ set winminheight=1
 
 " Requires 'jq' (brew install jq)
 function! s:PrettyJSON()
-  %!jq .
-  set filetype=json
-  normal zR
+%!jq .
+set filetype=json
+normal zR
 endfunction
 command! PrettyJSON :call <sid>PrettyJSON()
 " }}}
@@ -149,47 +155,47 @@ command! PrettyJSON :call <sid>PrettyJSON()
 " Commands {{{
 " specify syntax highlighting for specific files
 augroup file_types
-  autocmd!
-  autocmd Bufread,BufNewFile *.asciidoc,*.adoc,*.asc,*.ad set filetype=asciidoctor
-  autocmd Bufread,BufNewFile *.mdx set filetype=markdown
-  autocmd Bufread,BufNewFile *.spv set filetype=php
-  autocmd Bufread,BufNewFile *prettierrc,*stylelintrc,*babelrc,*eslintrc set filetype=json
-  autocmd Bufread,BufNewFile aliases,functions,prompt,tmux,oh-my-zsh,opts set filetype=zsh
-  autocmd Bufread,BufNewFile gitconfig set filetype=gitconfig
+autocmd!
+autocmd Bufread,BufNewFile *.asciidoc,*.adoc,*.asc,*.ad set filetype=asciidoctor
+autocmd Bufread,BufNewFile *.mdx set filetype=markdown
+autocmd Bufread,BufNewFile *.spv set filetype=php
+autocmd Bufread,BufNewFile *prettierrc,*stylelintrc,*babelrc,*eslintrc set filetype=json
+autocmd Bufread,BufNewFile aliases,functions,prompt,tmux,oh-my-zsh,opts set filetype=zsh
+autocmd Bufread,BufNewFile gitconfig set filetype=gitconfig
 augroup END
 
 " Remove trailing whitespace on save for specified file types.
 augroup clear_whitespace
-  autocmd!
-  au BufWritePre *.rb,*.yml,*.erb,*.haml,*.css,*.scss,*.js,*.coffee,*.vue :%s/\s\+$//e
+autocmd!
+au BufWritePre *.rb,*.yml,*.erb,*.haml,*.css,*.scss,*.js,*.coffee,*.vue :%s/\s\+$//e
 augroup END
 
 " Fold settings
-set foldlevelstart=1
+set foldlevelstart=99
 augroup fold_settings
-  autocmd!
-  autocmd FileType json setlocal foldmethod=syntax
-  autocmd FileType json normal zR
+autocmd!
+autocmd FileType json setlocal foldmethod=syntax
+autocmd FileType json normal zR
 augroup END
 
 " Close vim if only nerdtree window is left
 augroup nerdtree_settings
-  autocmd!
-  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd!
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup END
 
 " automatically rebalance windows on vim resize
 augroup window_resize
-  autocmd!
-  autocmd VimResized * :wincmd =
+autocmd!
+autocmd VimResized * :wincmd =
 augroup END
 
 " https://github.com/reedes/vim-textobj-quote#configuration
 augroup textobj_quote
-  autocmd!
-  autocmd FileType markdown call textobj#quote#init()
-  autocmd FileType textile call textobj#quote#init()
-  autocmd FileType text call textobj#quote#init({'educate': 0})
+autocmd!
+autocmd FileType markdown call textobj#quote#init()
+autocmd FileType textile call textobj#quote#init()
+autocmd FileType text call textobj#quote#init({'educate': 0})
 augroup END
 
 " }}}
@@ -215,6 +221,14 @@ nnoremap <C-t> <esc>:tabnew<CR> " Open a new tab with Ctrl+T
 nnoremap <leader>cc :set cursorcolumn!<CR>
 nnoremap <leader>cl :set cursorline!<CR>
 
+inoremap <expr><C-j> pumvisible() ? "\<Down>" : "\<C-j>"
+inoremap <expr><C-k> pumvisible() ? "\<Up>" : "\<C-k>"
+inoremap <expr><cr> pumvisible() ? "\<C-y>" : "\<cr>"
+inoremap <expr><TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
+imap <c-space> <Plug>(asyncomplete_force_refresh)
+let g:asyncomplete_remove_duplicates = 1
+let g:asyncomplete_smart_completion = 1
+
 " Disable Ex mode
 nnoremap Q <Nop>
 
@@ -231,7 +245,7 @@ nnoremap <leader>5 5gt
 
 nnoremap th :tabnext<CR>
 nnoremap tl :tabprev<CR>
-nnoremap tn :tabnew<CR>
+" nnoremap tn :tabnew<CR>
 
 
 " Expand active file directory
@@ -241,7 +255,7 @@ cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 nnoremap <leader>d :g/^\s*#.*/d<CR>:nohl<CR>
 
 " Run 'git blame' on a selection of code
-vnoremap <leader>gb :<C-U>!git blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
+" vnoremap <leader>gb :<C-U>!git blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
 
 " zoom a vim pane like in tmux
 nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
@@ -265,7 +279,7 @@ cmap w!! w !sudo tee >/dev/null %
 map <Leader>vv :e ~/.config/nvim/init.vim<cr>
 map <Leader>vz :e ~/.zshrc<cr>
 map <Leader>vt :e ~/.tmux.conf<cr>
-map <Leader>va :e ~/.aliases<cr>
+map <Leader>va :e ~/dotfiles/zsh/aliases<cr>
 
 " }}}
 
@@ -384,7 +398,19 @@ let g:far#source = 'rg'
 let g:far#file_mask_favorites = ['%', '**/*.*', '**/*.html', '**/*.haml', '**/*.js', '**/*.css', '**/*.scss', '**/*.rb']
 
 " NERDTree
-nmap <silent> <F3> :NERDTreeToggle<CR>
+nmap <silent> <F3> :call NERDTreeToggleInCurDir()<cr>
+" nmap <silent> <F3> :NERDTreeToggle %<CR>
+
+" Open NERDTree in the directory of the current file (or /home if no file is open)
+function! NERDTreeToggleInCurDir()
+  " If NERDTree is open in the current buffer
+  if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
+    exe ":NERDTreeClose"
+  else
+    exe ":NERDTreeFind"
+  endif
+endfunction
+
 " map <leader>\ :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
 let NERDTreeWinSize=25
@@ -460,7 +486,9 @@ let test#strategy = 'vtr'
 
 " vim-tmux-runner
 let g:VtrPercentage = 25
-let g:VtrUseVtrMaps = 1
+" This enables new default mappings for vim-tmux-runner
+let g:VtrUseVtrMaps = 0
+
 nnoremap <leader>sd :VtrSendCtrlD<cr>
 nmap <leader>fs :VtrFlushCommand<cr>:VtrSendCommandToRunner<cr>
 nmap <leader>v3 :VtrAttachToPane 3<cr>
@@ -552,6 +580,8 @@ let g:ale_linters = {
 " Coc
 " https://github.com/neoclide/coc.nvim
 
+let g:github_enterprise_urls = ['https://code.corp.surveymonkey.com']
+
 " Global extension names to install when they aren't installed
 let g:coc_global_extensions = [
       \ 'coc-css',
@@ -601,10 +631,10 @@ nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
-nmap <silent> cd <Plug>(coc-definition)
-nmap <silent> ct <Plug>(coc-type-definition)
-nmap <silent> ci <Plug>(coc-implementation)
-nmap <silent> ca <Plug>(coc-references)
+" nmap <silent> cd <Plug>(coc-definition)
+" nmap <silent> ct <Plug>(coc-type-definition)
+" nmap <silent> ci <Plug>(coc-implementation)
+" nmap <silent> ca <Plug>(coc-references)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>

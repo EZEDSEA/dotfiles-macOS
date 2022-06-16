@@ -31,7 +31,7 @@ local function on_attach(client, bufnr)
 
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-  if client.resolved_capabilities.document_formatting then
+  if client.server_capabilities.documentFormattingProvider then
     -- TODO: edn.au and edn.aug support buffer
     vim.cmd([[
       augroup LspAutoFormatting

@@ -51,6 +51,10 @@ M.set = function(client, bufnr)
         end,
       },
       { "<leader>ce", [[<cmd>Telescope lsp_workspace_diagnostics<cr>]] },
+      { "<leader>cd", [[<Plug>(coc-definition)]] },
+      { "<leader>ct", [[<Plug>(coc-type-definition)]] },
+      { "<leader>ci", [[<Plug>(coc-implementation)]] },
+      { "<leader>ca", [[<Plug>(coc-references)]] },
       {
         "<leader>cf",
         function()

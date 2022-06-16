@@ -20,9 +20,9 @@ function M.xmap(lhs, rhs, opts)
   vim.keymap.set("x", lhs, rhs, opts)
 end
 
-function M.cmap(lhs, rhs, opts)
-  vim.keymap.set("c", lhs, rhs, opts)
-end
+-- function M.cmap(lhs, rhs, opts)
+--   vim.keymap.set("c", lhs, rhs, opts)
+-- end
 
 function M.tmap(lhs, rhs, opts)
   vim.keymap.set("t", lhs, rhs, opts)
