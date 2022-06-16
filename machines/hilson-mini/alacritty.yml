@@ -1,0 +1,24 @@
+#
+#   █████╗ ██╗      █████╗  ██████╗██████╗ ██╗████████╗████████╗██╗   ██╗
+#  ██╔══██╗██║     ██╔══██╗██╔════╝██╔══██╗██║╚══██╔══╝╚══██╔══╝╚██╗ ██╔╝
+#  ███████║██║     ███████║██║     ██████╔╝██║   ██║      ██║    ╚████╔╝
+#  ██╔══██║██║     ██╔══██║██║     ██╔══██╗██║   ██║      ██║     ╚██╔╝
+#  ██║  ██║███████╗██║  ██║╚██████╗██║  ██║██║   ██║      ██║      ██║
+#  ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝      ╚═╝
+#
+
+live_config_reload: true
+
+import:
+  - ~/dotfiles/machines/hilson-mini/alacritty/func/debug.yml
+  - ~/dotfiles/machines/hilson-mini/alacritty/func/env.yml
+  - ~/dotfiles/machines/hilson-mini/alacritty/func/scrolling.yml
+  - ~/dotfiles/machines/hilson-mini/alacritty/func/selection.yml
+  - ~/dotfiles/machines/hilson-mini/alacritty/func/shell.yml
+  - ~/dotfiles/machines/hilson-mini/alacritty/inputs/keybinding.yml
+  - ~/dotfiles/machines/hilson-mini/alacritty/inputs/mouse.yml
+  - ~/dotfiles/machines/hilson-mini/alacritty/visual/colors.yml
+  - ~/dotfiles/machines/hilson-mini/alacritty/visual/cursor.yml
+  - ~/dotfiles/machines/hilson-mini/alacritty/visual/font.yml
+  - ~/dotfiles/machines/hilson-mini/alacritty/visual/window.yml
+

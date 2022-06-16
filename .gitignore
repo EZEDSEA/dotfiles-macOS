@@ -1,0 +1,7 @@
+.gitconfig.local
+.vimrc.local
+.zshrc.local
+Brewfile.lock.json
+local/*
+vim/.netrwhist
+vim/bundle
