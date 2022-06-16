@@ -113,12 +113,6 @@
 
 [status]
   submoduleSummary = true
-
-[url "https://github.com/"]
-  insteadOf = git@github.com:
-
-[url "https://"]
-  insteadOf = git://
 [user]
 	email = hzhang@surveymonkey.com
 	name = hzhang
