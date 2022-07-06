@@ -164,13 +164,13 @@ M.generate_user_config_highlights()
 
 -- Define autocmd that generates the highlight groups from the new colorscheme
 -- Then reset the highlights for feline
-edn.aug.EdenUiColorschemeReload = {
+augroup("EdenUiColorschemeReload", {
   {
-    { "SessionLoadPost", "ColorScheme" },
-    function()
+    event = { "SessionLoadPost", "ColorScheme" },
+    exec = function()
       require("eden.modules.ui.colors").generate_user_config_highlights()
     end,
   },
-}
+})
 
 return M

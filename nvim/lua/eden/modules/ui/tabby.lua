@@ -1,3 +1,5 @@
+-- nanozuki/tabby.nvim
+
 local filename = require("tabby.filename")
 require("eden.modules.ui.colors")
 local util = require("tabby.util")
@@ -61,4 +63,9 @@ local line = {
   },
 }
 
-require("tabby").setup({ tabline = line })
+require("tabby").setup({
+  opt = {
+    show_at_least = 2,
+  },
+  tabline = line,
+})

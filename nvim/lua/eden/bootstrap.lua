@@ -36,7 +36,7 @@ end
 -- Debugging module by reloading it. Convenience wrapper
 -- around `eden.core.reload`.
 _G.R = function(name)
-  require("eden.core.reload").reload_module(name)
+  require("eden.lib.reload").reload_module(name)
   return require(name)
 end
 
@@ -46,21 +46,21 @@ local pack = require("eden.core.pack")
 -- Disable some of the distributed plugins that are
 -- shipped with neovim
 local function disable_distibution_plugins()
-  vim.g.loaded_gzip = 1
-  vim.g.loaded_tar = 1
-  vim.g.loaded_tarPlugin = 1
-  vim.g.loaded_zip = 1
-  vim.g.loaded_zipPlugin = 1
-  vim.g.loaded_getscript = 1
-  vim.g.loaded_getscriptPlugin = 1
-  vim.g.loaded_vimball = 1
-  vim.g.loaded_vimballPlugin = 1
-  vim.g.loaded_2html_plugin = 1
-  vim.g.loaded_rrhelper = 1
-  vim.g.loaded_netrw = 1
-  vim.g.loaded_netrwPlugin = 1
-  vim.g.loaded_netrwSettings = 1
-  vim.g.loaded_netrwFileHandlers = 1
+  vim.g.loaded_gzip = true
+  vim.g.loaded_tar = true
+  vim.g.loaded_tarPlugin = true
+  vim.g.loaded_zip = true
+  vim.g.loaded_zipPlugin = true
+  vim.g.loaded_getscript = true
+  vim.g.loaded_getscriptPlugin = true
+  vim.g.loaded_vimball = true
+  vim.g.loaded_vimballPlugin = true
+  vim.g.loaded_2html_plugin = true
+  vim.g.loaded_rrhelper = true
+  vim.g.loaded_netrw = true
+  vim.g.loaded_netrwPlugin = true
+  vim.g.loaded_netrwSettings = true
+  vim.g.loaded_netrwFileHandlers = true
 end
 
 -- Initalize runtimepath to contain the following locations
@@ -109,7 +109,7 @@ end
 
 -- Initialize leader key to <space>, and `,` to localleader
 local function init_leader_keys()
-  -- vim.g.mapleader = " "
+  vim.g.mapleader = " "
   vim.g.maplocalleader = ","
 
   -- Clear mappings for leader keys to be reassigned later on in the config
@@ -125,13 +125,25 @@ local function init()
   init_runtimepath()
   init_leader_keys()
 
-  -- Initialize edn.keymap, edn.au, and edn.aug
-  require("eden.core.event")
-  require("eden.core.keymap")
+  -- Assign the global keymap, and comand function
+  require("eden.lib.event")
+  require("eden.lib.keymap")
+  require("eden.lib.command")
+
+  -- Create default autogroup
+  augroup("user_events", {})
 
   pack.bootstrap(function(installed)
     if installed then
-      vim.cmd([[autocmd User PackerComplete ++once lua require("eden.main")]])
+      autocmd({
+        event = "User",
+        pattern = "PackerComplete",
+        exec = function()
+          require("eden.main")
+        end,
+        once = true,
+      })
+
       pack.sync()
     else
       -- Packer is not required to be first time installed so require main configuration file

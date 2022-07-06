@@ -1,4 +1,3 @@
-local dev = require("eden.core.pack").dev
 local M = {}
 
 M.plugins = {
@@ -8,21 +7,15 @@ M.plugins = {
     config = function()
       require("eden.modules.ui.feline")
     end,
-    requires = { "nvim-lua/lsp-status.nvim" },
   },
+
   {
     "folke/which-key.nvim",
     config = function()
       require("eden.modules.ui.whichkey")
     end,
   },
-  {
-    "startup-nvim/startup.nvim",
-    cond = "not vim.g.started_by_firenvim",
-    config = function()
-      require("eden.modules.ui.startup")
-    end,
-  },
+
   {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
@@ -34,6 +27,7 @@ M.plugins = {
       })
     end,
   },
+
   {
     "norcalli/nvim-colorizer.lua",
     ft = { "html", "css", "sass", "vim", "typescript", "typescriptreact", "lua" },
@@ -56,21 +50,19 @@ M.plugins = {
       })
     end,
   },
+
   {
     "simrat39/symbols-outline.nvim",
     config = function()
-      edn.keymap("<leader>ts", [[<cmd>SymbolsOutline<cr>]])
+      nmap("<leader>ts", [[<cmd>SymbolsOutline<cr>]])
     end,
     cmd = { "SymbolsOutline" },
     keys = { "<leader>ts" },
   },
+
   {
-    "nanozuki/tabby.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
-    after = "feline.nvim",
-    config = function()
-      require("eden.modules.ui.tabby")
-    end,
+    "kevinhwang91/nvim-bqf",
+    ft = "qf",
   },
 }
 
@@ -117,6 +109,16 @@ M.before = function()
     "term",
     "toggerm",
   }
+end
+
+M.after = function()
+  -- Set the which-key descriptions as these are hidden behind packer lazy loading
+  local has_wk, wk = pcall(require, "which-key")
+  if has_wk then
+    wk.register({
+      ["<leader>ts"] = "Symbols outline",
+    })
+  end
 end
 
 return M

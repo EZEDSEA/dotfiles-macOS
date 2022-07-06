@@ -1,5 +1,4 @@
 local pack = require("eden.core.pack")
-local path = require("eden.core.path")
 local nlsp = require("lspconfig")
 local remaps = require("eden.modules.protocol.lsp.remaps")
 local filetype_attach = require("eden.modules.protocol.lsp.filetypes")
@@ -8,9 +7,17 @@ local premod = "eden.modules.protocol.lsp."
 require(premod .. "cosmetics")
 require(premod .. "handlers")
 
-local status = require("eden.modules.protocol.lsp.status")
-status.activate(false)
-require("fidget").setup({text = { spinner = "dots_negative" }})
+require("fidget").setup({
+  fmt = {
+    stack_upwards = false,
+  },
+  text = {
+    spinner = "dots_negative",
+  },
+  window = {
+    blend = 0,
+  },
+})
 
 vim.opt.updatetime = 300
 
@@ -24,7 +31,6 @@ local function on_attach(client, bufnr)
 
   remaps.set(client, bufnr)
 
-  status.on_attach(client)
   require("lsp_signature").on_attach({})
 
   filetype_attach[filetype](client)
@@ -32,7 +38,7 @@ local function on_attach(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
   if client.server_capabilities.documentFormattingProvider then
-    -- TODO: edn.au and edn.aug support buffer
+    -- TODO: What is <buffer> in the new nvim api?
     vim.cmd([[
       augroup LspAutoFormatting
         autocmd!
@@ -43,7 +49,6 @@ local function on_attach(client, bufnr)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = vim.tbl_deep_extend("keep", capabilities, status.capabilities)
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Packadding cmp-nvim-lsp if not added yet and updating capabilities
@@ -62,7 +67,7 @@ end
 -- `nvim-lsp-installer`. This makes installing language servers on windows sane.
 
 local installer = require("nvim-lsp-installer")
-installer.settings({
+installer.setup({
   log_level = vim.log.levels.DEBUG,
   ui = {
     icons = {
@@ -79,7 +84,7 @@ for _, v in ipairs(installer.get_installed_servers()) do
 end
 
 local servers = { "bashls", "cmake", "elmls", "gopls", "pyright", "rnix", "rust_analyzer", "vimls" }
-local modlist = path.modlist(pack.modname .. ".protocol.lsp.servers")
+local modlist = require("eden.lib.modlist").getmodlist(pack.modname .. ".protocol.lsp.servers")
 for _, mod in ipairs(modlist) do
   local name = mod:match("servers.(.+)$")
   servers[name] = require(mod)
@@ -103,6 +108,6 @@ for k, v in pairs(servers) do
 end
 
 -- Setup any installed servers that are not in the server list
-for _, server in pairs(installed) do
-  server:setup({})
+for name, server in pairs(installed) do
+  nlsp[name].setup(server._default_options or {})
 end

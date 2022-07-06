@@ -6,12 +6,10 @@ M.plugins = {
   {
     "tpope/vim-fugitive",
     config = function()
-      edn.keymap("<leader>g", {
-        { "a", ":Git add %:p<cr>" }, -- Stage current file
-        { "d", ":Gdiffsplit<cr>" }, -- Diff current file
-        { "c", ":Git commit<cr>" }, -- Create a git commit from staged changes
-        { "b", ":Git blame<cr>" }, -- Blame each line in file
-      })
+      nmap("<leader>ga", ":Git add %:p<cr>", { desc = "Add file" }) -- Stage current file
+      nmap("<leader>gd", ":Gdiffsplit<cr>", { desc = "Diff file" }) -- Diff current file
+      nmap("<leader>gc", ":Git commit<cr>", { desc = "Commit" }) -- Create a git commit from staged changes
+      nmap("<leader>gb", ":Git blame<cr>", { desc = "Blame file" }) -- Blame each line in file
     end,
   },
 
@@ -32,8 +30,10 @@ M.plugins = {
         integrations = { diffview = true },
       })
 
-      edn.keymap("<leader>gn", "<cmd>Neogit<cr>")
+      nmap("<leader>gn", "<cmd>Neogit<cr>")
     end,
+    cmd = { "Neogit" },
+    keys = { "<leader>gn" },
     requires = { "nvim-lua/plenary.nvim" },
   },
 
@@ -41,7 +41,7 @@ M.plugins = {
     "rhysd/git-messenger.vim",
     config = function()
       -- Show commit message for current line
-      edn.keymap("<leader>gm", "<cmd>GitMessenger<cr>")
+      nmap("<leader>gm", "<cmd>GitMessenger<cr>")
     end,
     cmd = { "GitMessenger" },
     keys = { "<leader>gm" },
@@ -50,7 +50,7 @@ M.plugins = {
   {
     "AndrewRadev/linediff.vim",
     config = function()
-      edn.keymap("<leader>gp", [[<cmd>LinediffPick<cr>]])
+      nmap("<leader>gp", [[<cmd>LinediffPick<cr>]])
     end,
     cmd = { "LinediffPick" },
     keys = { "<leader>gp" },
@@ -102,6 +102,18 @@ M.plugins = {
 
 M.begin = function()
   vim.g.git_messenger_no_default_mapping = false
+end
+
+M.after = function()
+  -- Set the which-key descriptions as these are hidden behind packer lazy loading
+  local has_wk, wk = pcall(require, "which-key")
+  if has_wk then
+    wk.register({
+      ["<leader>gm"] = "Show git message",
+      ["<leader>gn"] = "Neogit",
+      ["<leader>gp"] = "Pick diff",
+    })
+  end
 end
 
 return M

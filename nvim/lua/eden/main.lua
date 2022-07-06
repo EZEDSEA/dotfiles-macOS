@@ -2,9 +2,14 @@
 -- phase is complete. This file is meant for the actual user configuration to be
 -- set (or be required from other files)
 
--- require("eden.user.event")
--- require("eden.user.keymap")
--- require("eden.user.options")
+require("eden.user.event")
+require("eden.user.keymap")
+require("eden.user.options")
+
+-- If we are reloading our config then compile packer before requiring it
+require("eden.lib.reload").hook(function()
+  require("eden.core.pack").auto_compile()
+end)
 
 -- This is required here as the packer setup outputted the compiled file in the
 -- lua require path. This is so that it can be cached by `impatient`.
@@ -19,3 +24,6 @@ require("eden.core.pack").trigger_after()
 -- executes the config section. Then the colorscheme can be applied and the
 -- configuration settings would be seen.
 require("eden.core.theme")
+
+-- Tell the reload lib that we have finished the main file
+require("eden.lib.reload").finish()

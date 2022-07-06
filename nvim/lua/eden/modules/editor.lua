@@ -83,7 +83,7 @@ M.plugins = {
         quit = false,
       })
 
-      edn.keymap("<leader>bq", [[<cmd>BufDel<cr>]])
+      nmap("<leader>bq", [[<cmd>BufDel<cr>]], { desc = "Delete buffer" })
     end,
   },
 
@@ -95,21 +95,15 @@ M.plugins = {
     ft = { "markdown", "vimwiki" },
     cmd = { "MarkdownPreview", "MarkdownPreviewToggle" },
     config = function()
-      edn.keymap("<leader>tp", ":MarkdownPreviewToggle<cr>")
+      nmap("<leader>tp", ":MarkdownPreviewToggle<cr>", { desc = "Markdown preview" })
     end,
   },
 
   {
-    "windwp/nvim-spectre",
+    "anuvyklack/hydra.nvim",
     config = function()
-      require("spectre").setup()
-      vim.cmd('command! Spectre lua require("spectre").open()')
-    end,
-    cmd = { "Spectre" },
-    requires = {
-      { "nvim-lua/popup.nvim" },
-      { "nvim-lua/plenary.nvim" },
-    },
+      require('eden.modules.editor.hydra')
+    end
   },
 
   -- Profiling

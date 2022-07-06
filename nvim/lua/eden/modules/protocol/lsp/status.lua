@@ -1,3 +1,5 @@
+-- Not used anymore
+
 local nvim_status = require("lsp-status")
 local status = {}
 
@@ -33,7 +35,11 @@ status.activate = function(register)
     diagnostics = vim.g.current_statusline == "lualine",
   })
 
-  local should_register = register and register or true
+  local should_register = true
+  if type(register) == "boolean" then
+    should_register = register
+  end
+
   if should_register then
     nvim_status.register_progress()
   end
@@ -42,7 +48,7 @@ end
 status.on_attach = function(client)
   nvim_status.on_attach(client)
 
-  if client.server_capabilities.documentSymbol then
+  if client.server_capabilities.documentSymbolProvider then
     -- TODO: edn.au handle buffer
     vim.cmd([[augroup lsp_status]])
     vim.cmd([[  autocmd CursorHold,BufEnter <buffer> lua require('lsp-status').update_current_function()]])

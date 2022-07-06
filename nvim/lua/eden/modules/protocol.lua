@@ -12,7 +12,6 @@ M.plugins = {
     requires = {
       "williamboman/nvim-lsp-installer",
       "ray-x/lsp_signature.nvim",
-      "nvim-lua/lsp-status.nvim",
       "j-hui/fidget.nvim",
     },
   },
@@ -28,10 +27,11 @@ M.plugins = {
     config = function()
       require("eden.modules.protocol.dap")
     end,
+    event = "VimEnter",
     requires = {
-      "theHamsta/nvim-dap-virtual-text",
-      "rcarriga/nvim-dap-ui",
-      "jbyuki/one-small-step-for-vimkind",
+      { "theHamsta/nvim-dap-virtual-text", opts = true },
+      { "rcarriga/nvim-dap-ui", opts = true },
+      { "jbyuki/one-small-step-for-vimkind", opts = true },
     },
   },
 
@@ -50,10 +50,12 @@ M.plugins = {
         { "windwp/nvim-ts-autotag", opt = true },
       },
     },
+
     {
       "nvim-treesitter/playground",
       cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
     },
+
     {
       "code-biscuits/nvim-biscuits",
       after = "nvim-treesitter",
@@ -61,12 +63,18 @@ M.plugins = {
         require("nvim-biscuits").setup({
           cursor_line_only = true,
         })
-        edn.keymap("<leader>tb", function()
+
+        nmap("<leader>tb", function()
           require("nvim-biscuits").toggle_biscuits()
-        end)
+        end, { desc = "Biscuits" })
       end,
     },
   },
 }
+
+M.before = function()
+  -- Stub command to load dap with packer
+  command("DapLoad", "")
+end
 
 return M

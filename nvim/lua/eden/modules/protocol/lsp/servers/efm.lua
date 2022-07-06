@@ -27,7 +27,7 @@ local eslint = {
 
 local prettier = {
   rootMarkers = { "package.json" },
-  formatCommand = [[prettier "${INPUT}"]],
+  formatCommand = [[prettierd "${INPUT}"]],
   -- formatCommand = (function()
   --   local is_local = not vim.fn.empty(vim.loop.cwd() .. "/node_modules/.bin/prettier")
   --   local cmd = is_local and "./node_modules/.bin/prettier" or "prettier"
@@ -50,7 +50,6 @@ M.setup = function(config, on_attach, opts)
 
   config.init_options = { documentFormatting = true }
   config.on_attach = function(client, bufnr)
-    client.server_capabilities.rename = false
     on_attach(client, bufnr)
   end
 

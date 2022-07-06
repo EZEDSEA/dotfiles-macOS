@@ -2,13 +2,8 @@ local trouble = require("trouble")
 
 trouble.setup()
 
-edn.keymap({
-  "<leader>x",
-  {
-    { "x", [[<cmd>TroubleToggle<cr>]] },
-    { "w", [[<cmd>TroubleToggle lsp_workspace_diagnostics<cr>]] },
-    { "d", [[<cmd>TroubleToggle lsp_document_diagnostics<cr>]] },
-    { "l", [[<cmd>TroubleToggle locallist<cr>]] },
-    { "q", [[<cmd>TroubleToggle quickfix<cr>]] },
-  },
-})
+nmap("<leader>xx", [[<cmd>TroubleToggle<cr>]], { desc = "Toggle trouble" })
+nmap("<leader>xw", [[<cmd>TroubleToggle lsp_workspace_diagnostics<cr>]], { desc = "Workspace diagnostics" })
+nmap("<leader>xd", [[<cmd>TroubleToggle lsp_document_diagnostics<cr>]], { desc = "Document diagnostics" })
+nmap("<leader>xl", [[<cmd>TroubleToggle locallist<cr>]], { desc = "Local list" })
+nmap("<leader>xq", [[<cmd>TroubleToggle quickfix<cr>]], { desc = "Quickfix list" })

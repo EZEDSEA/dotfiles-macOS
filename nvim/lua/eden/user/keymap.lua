@@ -1,7 +1,4 @@
 -- local keymap = require("eden.core.keymap")
-local keymap = require("eden.lib.keymap")
-
-local map, nmap, xmap = keymap.map, keymap.nmap, keymap.xmap
 
 -- 'j' and 'k' moves up and down visible lines in editor not actual lines
 -- This is noticable when text wraps to next line
@@ -20,14 +17,14 @@ nmap("<up>", "k")
 nmap("<right>", "l")
 
 -- Map Y to be the same as D and C
-map({ "n", "x" }, "Y", "yg_")
+kmap({ "n", "x" }, "Y", "yg_")
 
 -- Center search
 nmap("n", "nzzzv")
 nmap("N", "Nzzzv")
 
 -- Switch between the last two buffers
-nmap("<leader><leader>", [[<c-^>\"zz]])
+nmap("<leader><leader>", [[<c-^>\"zz]], { desc = "Last buffer" })
 
 -- Keep selection when indent/outdent
 xmap(">", ">gv")
@@ -40,27 +37,27 @@ xmap("*", '"xy/<c-r><cr>')
 nmap("cp", [[vap:t'><cr>(j]])
 
 -- Redirect change operation to blackhole register
-map({ "n", "x" }, "c", [["_c]])
-map({ "n", "x" }, "C", [["_C]])
+kmap({ "n", "x" }, "c", [["_c]])
+kmap({ "n", "x" }, "C", [["_C]])
 
 -- Toggle highlight search
 nmap("<leader>th", function()
   vim.opt.hlsearch = not vim.o.hlsearch
-end)
+end, { desc = "Highlight" })
 
-nmap("<leader>w", [[:<c-u>w<cr>]])
-nmap("<leader>q", [[:<c-u>q<cr>]])
-nmap("<leader>!", [[:<c-u>q!<cr>]])
+nmap("<leader>w", [[:<c-u>w<cr>]], { desc = "Write file" })
+nmap("<leader>q", [[:<c-u>q<cr>]], { desc = "Quit buffer" })
+nmap("<leader>!", [[:<c-u>q!<cr>]], { desc = "Force quit buffer" })
 
 nmap("<leader>tn", function()
   require("core.util").toggle_numbers()
-end)
+end, { desc = "Number line" })
 
 nmap("<leader>bm", function()
   require("eden.fn.bufmax").toggle()
-end)
+end, { desc = "Max buffer" })
 
-nmap("<leader>tt", ":Telescope colorscheme<cr>")
+nmap("<leader>tt", ":Telescope colorscheme<cr>", { desc = "Colorscheme" })
 
 -- Jump list -------------------------------------------------------------------
 -- Because currently in alacritty we cannot tell the difference between <tab>
@@ -70,11 +67,11 @@ nmap("<leader>tt", ":Telescope colorscheme<cr>")
 nmap("<m-i>", "<c-i>")
 nmap("<m-o>", "<c-o>")
 
-nmap("[t", ":tabprevious<cr>", { silent = true })
-nmap("]t", ":tabnext<cr>", { silent = true })
+nmap("[t", ":tabprevious<cr>", { silent = true, desc = "Preveous tab" })
+nmap("]t", ":tabnext<cr>", { silent = true, desc = "Next tab" })
 
-nmap("[q", ":cprev<cr>", { silent = true })
-nmap("]q", ":cnext<cr>", { silent = true })
+nmap("[q", ":cprev<cr>", { silent = true, desc = "Preveous quickfix" })
+nmap("]q", ":cnext<cr>", { silent = true, desc = "Next quickfix" })
 
 -- -- Move around splits without having to press <C-w> before each movement"
 -- nmap("<A-h>", "<cmd>lua require('eden.fn.winmove')('left')<cr>")
@@ -85,11 +82,11 @@ nmap("]q", ":cnext<cr>", { silent = true })
 -- Exec current file
 nmap("<F1>", ":lua require('eden.core.util').exec_file()<cr>")
 nmap("<F2>", ":lua require('eden.core.util').open_url_under_cursor()<cr>")
-nmap("<F3>", ":lua R('packer_compiled')<cr>")
+nmap("<F3>", "<cmd>lua require('eden.lib.reload').reload_config()<cr>")
 
-map("t", "<esc>", [[<c-\><c-n>]])
-map("t", "<c-q>", [[<c-\><c-n>:bdelete!<cr>]])
-map("t", "<c-h>", [[<c-\><c-n><c-w>h]])
-map("t", "<c-j>", [[<c-\><c-n><c-w>j]])
-map("t", "<c-k>", [[<c-\><c-n><c-w>k]])
-map("t", "<c-l>", [[<c-\><c-n><c-w>l]])
+tmap("<esc>", [[<c-\><c-n>]])
+tmap("<c-q>", [[<c-\><c-n>:bdelete!<cr>]])
+tmap("<c-h>", [[<c-\><c-n><c-w>h]])
+tmap("<c-j>", [[<c-\><c-n><c-w>j]])
+tmap("<c-k>", [[<c-\><c-n><c-w>k]])
+tmap("<c-l>", [[<c-\><c-n><c-w>l]])

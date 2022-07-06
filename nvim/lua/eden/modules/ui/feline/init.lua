@@ -5,6 +5,7 @@
 -- highlight groups are pulled from the current colorscheme applied. Check the
 -- file: `lua/eden/modules/ui/colors.lua` to see how they are defined.
 
+require("eden.modules.ui.colors")
 local u = require("eden.modules.ui.feline.util")
 local fmt = string.format
 
@@ -23,6 +24,21 @@ end
 
 local function vi_sep_hl()
   return u.vi.sep[vim.fn.mode()] or "EdenSLBlack"
+end
+
+local function file_info()
+  local list = {}
+  if vim.bo.readonly then
+    table.insert(list, "🔒")
+  end
+
+  if vim.bo.modified then
+    table.insert(list, "●")
+  end
+
+  table.insert(list, vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":~:."))
+
+  return table.concat(list, " ")
 end
 
 local c = {
@@ -83,7 +99,7 @@ local c = {
   },
   lsp_status = {
     provider = function()
-      return require("lsp-status").status()
+       return vim.tbl_count(vim.lsp.buf_get_clients(0)) == 0 and "" or " ◦ "
     end,
     hl = "EdenSLStatus",
     left_sep = { str = "", hl = "EdenSLStatusBg", always_visible = true },
@@ -126,6 +142,10 @@ local c = {
     provider = "position",
     hl = "StatusLine",
   },
+  file_winbar = {
+    provider = file_info,
+    hl = "Comment",
+  },
 }
 
 local active = {
@@ -153,21 +173,6 @@ local inactive = {
   { c.in_position }, -- right
 }
 
--- -- Define autocmd that generates the highlight groups from the new colorscheme
--- -- Then reset the highlights for feline
--- edn.aug.FelineColorschemeReload = {
---   {
---     { "SessionLoadPost", "ColorScheme" },
---     function()
---       require("eden.modules.ui.feline.colors").gen_highlights()
---       -- This does not look like it is required. If this is called I see the ^^^^^^ that
---       -- seperates the two sides of the bar. Since the entire config uses highlight groups
---       -- all that is required is to redefine them.
---       -- require("feline").reset_highlights()
---     end,
---   },
--- }
-
 require("feline").setup({
   components = { active = active, inactive = inactive },
   highlight_reset_triggers = {},
@@ -194,3 +199,14 @@ require("feline").setup({
     },
   },
 })
+
+-- require("feline").winbar.setup({
+--   components = {
+--     active = {
+--       {},
+--       {
+--         c.file_winbar,
+--       },
+--     },
+--   },
+-- })
