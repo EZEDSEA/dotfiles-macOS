@@ -1,6 +1,6 @@
 return {
   ["AndrewRadev/linediff.vim"] = "c7710dbc59881b038ca064b6c54fe482303e8304",
-  ["EdenEast/nightfox.nvim"] = "f0bcabd09ff6cfacbd9ca29162893b8b7e85ee5c",
+  ["EdenEast/nightfox.nvim"] = "f8e1a09781a165ed002f52cfdc7c85bf7539a863",
   ["JoosepAlviste/nvim-ts-context-commentstring"] = "88343753dbe81c227a1c1fd2c8d764afb8d36269",
   ["L3MON4D3/LuaSnip"] = "45fc3d860cfa7a074b4d2fbf68c0249aa3a01320",
   ["LhKipp/nvim-nu"] = "3ef01939989f4d45520873fdac23a2cd7c9c226b",
@@ -71,5 +71,4 @@ return {
   ["wellle/targets.vim"] = "8d6ff2984cdfaebe5b7a6eee8f226a6dd1226f2d",
   ["williamboman/nvim-lsp-installer"] = "793f99660fa9212f52ee8b6164454e03ba1f42c9",
   ["windwp/nvim-autopairs"] = "972a7977e759733dd6721af7bcda7a67e40c010e",
-  ["~/dev/lang/nvy/editor/vim/"] = "ea8d8a3fd390b3f198bf31fb47cf3feb37e501e0",
 }
