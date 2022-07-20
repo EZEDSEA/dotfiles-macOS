@@ -6,7 +6,10 @@ M.plugins = {
 
   {
     "windwp/nvim-autopairs",
-    event = "InsertEnter",
+    opt = true,
+    setup = function()
+      require("eden.lib.defer").add("nvim-autopairs", 70)
+    end,
     config = function()
       require("nvim-autopairs").setup({
         disable_filetype = { "TelescopePrompt", "vim" },
@@ -18,9 +21,7 @@ M.plugins = {
   {
     "hrsh7th/nvim-cmp",
     after = "nvim-autopairs",
-    config = function()
-      require("eden.modules.editor.cmp")
-    end,
+    conf = "editor.cmp",
   },
 
   {
@@ -36,23 +37,20 @@ M.plugins = {
   },
 
   -- Sources
-  {
-    { "saadparwaiz1/cmp_luasnip", after = "LuaSnip" },
-    { "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
-    { "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
-    { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
-    { "hrsh7th/cmp-path", after = "nvim-cmp" },
-    { "hrsh7th/cmp-emoji", after = "nvim-cmp" },
-    { "f3fora/cmp-spell", after = "nvim-cmp" },
-    { "ray-x/cmp-treesitter", after = "nvim-cmp" },
-  },
+
+  { "saadparwaiz1/cmp_luasnip", after = "LuaSnip" },
+  { "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
+  { "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
+  { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
+  { "hrsh7th/cmp-path", after = "nvim-cmp" },
+  { "hrsh7th/cmp-emoji", after = "nvim-cmp" },
+  { "f3fora/cmp-spell", after = "nvim-cmp" },
+  { "ray-x/cmp-treesitter", after = "nvim-cmp" },
 
   -- --------------------------------------------------------------------------
 
-  {
-    "editorconfig/editorconfig-vim",
-    "christoomey/vim-tmux-navigator",
-  },
+  { "editorconfig/editorconfig-vim" },
+  { "christoomey/vim-tmux-navigator" },
 
   {
     "ahmedkhalf/project.nvim",
@@ -68,15 +66,17 @@ M.plugins = {
 
   {
     "akinsho/nvim-toggleterm.lua",
-    config = function()
-      require("eden.modules.editor.toggleterm")
-    end,
+    conf = "editor.toggleterm",
     cmd = { "ToggleTerm" },
     keys = { "<c-space>" },
   },
 
   {
     "ojroques/nvim-bufdel",
+    opt = true,
+    startup = function()
+      require("eden.lib.defer").add("nvim-bufdel", 40)
+    end,
     config = function()
       require("bufdel").setup({
         next = "alternate",
@@ -101,13 +101,19 @@ M.plugins = {
 
   {
     "anuvyklack/hydra.nvim",
-    config = function()
-      require('eden.modules.editor.hydra')
-    end
+    opt = true,
+    startup = function()
+      require("eden.lib.defer").add("hydra.nvim", 40)
+    end,
+    conf = "editor.hydra",
   },
 
   -- Profiling
-  { "tweekmonster/startuptime.vim", cmd = { "StartupTime" } },
+  {
+    "dstein64/vim-startuptime",
+    -- "tweekmonster/startuptime.vim",
+    cmd = { "StartupTime" },
+  },
 }
 
 M.before = function()

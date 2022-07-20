@@ -1,12 +1,11 @@
-local dev = require("eden.core.pack").dev
 local M = {}
 
 M.plugins = {
   {
-    dev("EdenEast/nightfox.nvim"),
-    config = function()
-      require("eden.modules.theme.nightfox")
-    end,
+    "EdenEast/nightfox.nvim",
+    dev = true,
+    run = ":NightfoxCompile",
+    conf = "theme.nightfox",
   },
 
   {
@@ -21,9 +20,7 @@ M.plugins = {
 
   {
     "rebelot/kanagawa.nvim",
-    config = function()
-      require("eden.modules.theme.kanagawa")
-    end,
+    conf = "theme.kanagawa",
   },
 }
 

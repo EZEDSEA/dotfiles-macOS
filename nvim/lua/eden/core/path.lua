@@ -16,7 +16,7 @@ M.confighome = M.join(home, ".config", "nvim")
 M.datahome = M.join(home, ".local", "share", "nvim")
 M.cachehome = M.join(home, ".cache", "nvim")
 M.packroot = M.join(M.cachehome, "site", "pack")
-M.packer_compiled = M.join(M.datahome, "lua", "packer_compiled.lua")
+M.packer_compiled = M.join(M.datahome, "lua", "eden", "compiled.lua")
 M.module_path = M.join(M.confighome, "lua", "eden", "modules")
 
 -- Create a directory
@@ -36,6 +36,12 @@ end
 M.exists = function(p)
   local state = vim.loop.fs_stat(p)
   return not (state == nil)
+end
+
+---Remove file from file system
+---@param path string
+M.remove_file = function(path)
+  os.execute("rm " .. path)
 end
 
 edn.path = M

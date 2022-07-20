@@ -1,18 +1,18 @@
-local dev = require("eden.core.pack").dev
-
 local M = {}
 
 M.plugins = {
   -- Language Servers ---------------------------------------------------------
   {
     "neovim/nvim-lspconfig",
-    config = function()
-      require("eden.modules.protocol.lsp")
+    opt = true,
+    setup = function()
+      require("eden.lib.defer").add("nvim-lspconfig", 80)
     end,
+    conf = "protocol.lsp",
     requires = {
-      "williamboman/nvim-lsp-installer",
-      "ray-x/lsp_signature.nvim",
-      "j-hui/fidget.nvim",
+      { "williamboman/nvim-lsp-installer", opt = true },
+      { "ray-x/lsp_signature.nvim", opt = true },
+      { "j-hui/fidget.nvim", opt = true },
     },
   },
 
@@ -24,57 +24,38 @@ M.plugins = {
   -- Debug Adaptor ------------------------------------------------------------
   {
     "mfussenegger/nvim-dap",
-    config = function()
-      require("eden.modules.protocol.dap")
+    opt = true,
+    setup = function()
+      require("eden.lib.defer").add("nvim-dap", 20)
     end,
-    event = "VimEnter",
+    conf = "protocol.dap",
     requires = {
-      { "theHamsta/nvim-dap-virtual-text", opts = true },
-      { "rcarriga/nvim-dap-ui", opts = true },
-      { "jbyuki/one-small-step-for-vimkind", opts = true },
+      { "rcarriga/nvim-dap-ui", opt = true },
+      { "theHamsta/nvim-dap-virtual-text", opt = true },
+      { "jbyuki/one-small-step-for-vimkind", opt = true },
     },
   },
 
   -- Treesitter ---------------------------------------------------------------
   {
-    {
-      "nvim-treesitter/nvim-treesitter",
-      run = ":TSUpdate",
-      config = function()
-        require("eden.modules.protocol.treesitter")
-      end,
-      requires = {
-        { "romgrk/nvim-treesitter-context", opt = true, disabled = not edn.platform.is_windows },
-        { "JoosepAlviste/nvim-ts-context-commentstring", opt = true },
-        { "nvim-treesitter/nvim-treesitter-textobjects", opt = true },
-        { "windwp/nvim-ts-autotag", opt = true },
-      },
-    },
-
-    {
-      "nvim-treesitter/playground",
-      cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
-    },
-
-    {
-      "code-biscuits/nvim-biscuits",
-      after = "nvim-treesitter",
-      config = function()
-        require("nvim-biscuits").setup({
-          cursor_line_only = true,
-        })
-
-        nmap("<leader>tb", function()
-          require("nvim-biscuits").toggle_biscuits()
-        end, { desc = "Biscuits" })
-      end,
+    "nvim-treesitter/nvim-treesitter",
+    opt = true,
+    setup = function()
+      require("eden.lib.defer").add("nvim-treesitter", 100)
+    end,
+    conf = "protocol.treesitter",
+    run = ":TSUpdate",
+    requires = {
+      { "romgrk/nvim-treesitter-context", opt = true, disabled = not edn.platform.is_windows },
+      { "JoosepAlviste/nvim-ts-context-commentstring", opt = true },
+      { "nvim-treesitter/nvim-treesitter-textobjects", opt = true },
     },
   },
-}
 
-M.before = function()
-  -- Stub command to load dap with packer
-  command("DapLoad", "")
-end
+  {
+    "nvim-treesitter/playground",
+    cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
+  },
+}
 
 return M

@@ -4,16 +4,13 @@ M.plugins = {
   {
     "feline-nvim/feline.nvim",
     event = "VimEnter",
-    config = function()
-      require("eden.modules.ui.feline")
-    end,
+    conf = "ui.feline",
+    requires = { "kyazdani42/nvim-web-devicons" },
   },
 
   {
     "folke/which-key.nvim",
-    config = function()
-      require("eden.modules.ui.whichkey")
-    end,
+    conf = "ui.whichkey",
   },
 
   {
@@ -52,6 +49,11 @@ M.plugins = {
   },
 
   {
+    "rcarriga/nvim-notify",
+    conf = "ui.notify",
+  },
+
+  {
     "simrat39/symbols-outline.nvim",
     config = function()
       nmap("<leader>ts", [[<cmd>SymbolsOutline<cr>]])
@@ -63,6 +65,11 @@ M.plugins = {
   {
     "kevinhwang91/nvim-bqf",
     ft = "qf",
+  },
+
+  {
+    "goolord/alpha-nvim",
+    conf = "ui.alpha",
   },
 }
 

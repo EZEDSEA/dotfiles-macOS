@@ -3,42 +3,40 @@ local M = {}
 M.plugins = {
   {
     "nvim-telescope/telescope.nvim",
-    config = function()
-      require("eden.modules.nav.telescope.setup")
+    opt = true,
+    setup = function()
+      require("eden.lib.defer").add("telescope.nvim", 70)
     end,
+    conf = "nav.telescope.setup",
     requires = {
-      { "nvim-lua/popup.nvim" },
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope-fzy-native.nvim" },
+      { "nvim-lua/popup.nvim", opt = true },
+      { "nvim-lua/plenary.nvim", opt = true },
+      { "nvim-telescope/telescope-fzy-native.nvim", opt = true },
       { "nvim-telescope/telescope-frecency.nvim", requires = { "tami5/sqlite.lua", opt = true }, opt = true },
     },
   },
 
   {
     "kyazdani42/nvim-tree.lua",
-    requires = "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("eden.modules.nav.nvimtree")
+    opt = true,
+    setup = function()
+      require("eden.lib.defer").add("nvim-tree.lua", 70)
     end,
-    cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFindFile" },
-    keys = { "<leader>te" },
+    conf = "nav.nvimtree",
+    requires = "kyazdani42/nvim-web-devicons",
   },
 
-  {
-    "folke/trouble.nvim",
-    config = function()
-      require("eden.modules.nav.trouble")
-    end,
-    requires = "kyazdani42/nvim-web-devicons",
-  },
+  -- {
+  --   "folke/trouble.nvim",
+  --   conf = "nav.trouble",
+  --   requires = "kyazdani42/nvim-web-devicons",
+  -- },
 
   {
     "theprimeagen/harpoon",
     requires = "nvim-lua/plenary.nvim",
     disable = true,
-    config = function()
-      require("eden.modules.nav.harpoon")
-    end,
+    conf = "nav.harpoon",
   },
 }
 
