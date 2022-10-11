@@ -30,15 +30,27 @@ nmap("<leader><leader>", [[<c-^>\"zz]], { desc = "Last buffer" })
 xmap(">", ">gv")
 xmap("<", "<gv")
 
+-- Visual select last pasted value
+nmap("gp", "`[v`]")
+
 -- Search for selected text
 xmap("*", '"xy/<c-r><cr>')
 
 -- Clone paragraph
 nmap("cp", [[vap:t'><cr>(j]])
 
--- Redirect change operation to blackhole register
+-- Redirect change and `x` operation to blackhole register
 kmap({ "n", "x" }, "c", [["_c]])
 kmap({ "n", "x" }, "C", [["_C]])
+
+-- Increment/decrement
+nmap("+", "<C-a>")
+nmap("-", "<C-x>")
+vmap("+", "g<C-a>")
+vmap("-", "g<C-x>")
+
+-- Execute last command
+nmap([[\]], ":<c-u><up><cr>")
 
 nmap("dd", function()
   if vim.api.nvim_get_current_line():match("^%s*$") then
@@ -58,7 +70,7 @@ nmap("<leader>q", [[:<c-u>q<cr>]], { desc = "Quit buffer" })
 nmap("<leader>!", [[:<c-u>q!<cr>]], { desc = "Force quit buffer" })
 
 nmap("<leader>tn", function()
-  require("core.util").toggle_numbers()
+  require("eden.core.util").toggle_numbers()
 end, { desc = "Number line" })
 
 nmap("<leader>bm", function()
@@ -98,3 +110,7 @@ tmap("<c-h>", [[<c-\><c-n><c-w>h]])
 tmap("<c-j>", [[<c-\><c-n><c-w>j]])
 tmap("<c-k>", [[<c-\><c-n><c-w>k]])
 tmap("<c-l>", [[<c-\><c-n><c-w>l]])
+
+nmap("<leader>gB", function()
+  require("eden.extend.git").open_in_browser()
+end, { desc = "Browse file" })

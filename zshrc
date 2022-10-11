@@ -1,6 +1,5 @@
 # ~/.zshrc
 . $HOME/dotfiles/zsh/profiler.start
-
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.yarn/bin
 export EDITOR="nvim"
 export BUNDLER_EDITOR=$EDITOR
@@ -17,6 +16,8 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export DOTFILES="$HOME/dotfiles"
 HOST_NAME=$(scutil --get HostName)
 export HOST_NAME
+
+export DEV_HOST="dev-dsk-hongoz-1e-caf17f9f.us-east-1.amazon.com"
 
 . $DOTFILES/zsh/oh-my-zsh
 . $DOTFILES/zsh/opts

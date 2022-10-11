@@ -1,3 +1,27 @@
+
+# Odin
+alias odintunnel='ssh -fNL 2009:127.0.0.1:2009 $DEV_HOST'
+
+# Brazil
+alias bb=brazil-build
+alias bba='brazil-build apollo-pkg'
+alias bre='brazil-runtime-exec'
+alias brc='brazil-recursive-cmd'
+alias bws='brazil ws'
+alias bs='brazil ws sync'
+alias bsm='brazil ws --sync -md'
+alias bwsuse='bws use --gitMode -p'
+alias bwscreate='bws create -n'
+alias bbr='brc brazil-build'
+alias bball='brc --allPackages'
+alias bbb='brc --allPackages brazil-build'
+alias latest='f() { git fetch && brazil ws use -p "${PWD##*/}" --latestVersion };f'
+
+# Misc
+alias auth='kinit && mwinit'
+alias uni='$DOTFILES/start_unison.sh'
+#alias terminal-notifier=/terminal-notifier
+
 # General UNIX
 alias cp='cp -iv'
 alias df='df -h'
@@ -178,6 +202,10 @@ alias upc='softwareupdate -l'
 
 # Download and install macOS updates
 alias upd='softwareupdate -i -a'
+
+# TMUX
+alias attach='tmux attach-session -t'
+alias tkill='tmux kill-session -t'
 
 # Misc
 alias cat='bat'

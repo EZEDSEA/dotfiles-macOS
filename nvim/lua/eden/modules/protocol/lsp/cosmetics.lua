@@ -6,8 +6,5 @@ sign("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticWarn", linehl = 
 sign("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticInfo", linehl = "NONE" })
 sign("DiagnosticSignHint", { text = " ", texthl = "DiagnosticHint", linehl = "NONE" })
 
-vim.diagnostic.config({
-  signs = true,
-  virtual_text = { spacing = 2, prefix = "❰" },
-  underline = true,
-})
+require("lsp_lines").setup()
+require("eden.modules.protocol.lsp.extensions.virtual_lines").init()

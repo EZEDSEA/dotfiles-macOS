@@ -13,6 +13,9 @@ require("nightfox").setup({
       pounce = false,
       sneak = false,
       tsrainbow = false,
+      native_lsp = {
+        background = false,
+      },
     },
   },
   specs = {
@@ -26,6 +29,10 @@ require("nightfox").setup({
     all = {
       TelescopeBorder = { fg = "bg4" },
       TelescopeTitle = { fg = "fg2", bg = "bg4" },
+
+      CmpItemKindFunction = { fg = "magenta" },
+      CmpItemKindMethod = { fg = "magenta" },
+      CmpWindowBorder = { fg = "bg0", bg = "bg0" },
     },
   },
 })

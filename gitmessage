@@ -1,9 +1,33 @@
+# begin header
+type: subject
+# end header
 
+# begin body
+body
+# end body
 
-# 50-character subject line
-#   * Present tense
+# begin footer
+sim 
+cr 
+# end footer
 #
-# 72-character wrapped longer description. This should answer:
-#   * Why was this change necessary?
-#   * How does it address the problem?
-#   * Are there any side effects?
+# GUIDELINE:
+#   type:
+#     - build: brazil change, new dependency, etc
+#     - chore: non-prod code change which is neither fix, feature nor refactor
+#     - docs: only documentation
+#     - feat: code change for a feature
+#     - fix: code change for a bug fix
+#     - perf: code change for improving performance
+#     - refactor: code change which is neither a fix nor a feature
+#     - test: add or modify tests
+#   subject:
+#     - use the imperative, present tense: "add" not "added" nor "adds"
+#     - don't capitalize the first letter
+#     - no dot (.) at the end
+#   body:
+#     - motivation for the change
+#   footer:
+#     - link to SIM ticket
+#     - link to reference documentation
+#

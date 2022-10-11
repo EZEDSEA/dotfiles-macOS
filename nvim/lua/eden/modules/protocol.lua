@@ -13,7 +13,17 @@ M.plugins = {
       { "williamboman/nvim-lsp-installer", opt = true },
       { "ray-x/lsp_signature.nvim", opt = true },
       { "j-hui/fidget.nvim", opt = true },
+      { "Maan2003/lsp_lines.nvim", opt = true },
+      { "lvimuser/lsp-inlayhints.nvim", opt = true },
     },
+  },
+
+  {
+    "Hoffs/omnisharp-extended-lsp.nvim",
+    opt = true,
+    setup = function()
+      require("eden.lib.defer").register("omnisharp_extended", "omnisharp-extended-lsp.nvim")
+    end,
   },
 
   {

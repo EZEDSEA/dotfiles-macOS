@@ -2,6 +2,8 @@ require("eden.lib.defer").immediate_load({
   "nvim-lsp-installer",
   "lsp_signature.nvim",
   "fidget.nvim",
+  "lsp_lines.nvim",
+  "lsp-inlayhints.nvim",
 })
 
 local pack = require("eden.core.pack")
@@ -27,6 +29,19 @@ require("fidget").setup({
 
 vim.opt.updatetime = 300
 
+require("lsp-inlayhints").setup({ -- « »
+  inlay_hints = {
+    max_len_align = true,
+    parameter_hints = {
+      prefix = "« ",
+    },
+    type_hints = {
+      prefix = "» ",
+    },
+    -- max_len_align = true,
+  },
+})
+
 local function on_init(client)
   client.config.flags = client.config.flags or {}
   client.config.flags.allow_incremental_sync = true
@@ -38,19 +53,20 @@ local function on_attach(client, bufnr)
   remaps.set(client, bufnr)
 
   require("lsp_signature").on_attach({})
+  require("lsp-inlayhints").on_attach(client, bufnr)
 
   filetype_attach[filetype](client)
 
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
   if client.server_capabilities.documentFormattingProvider then
-    -- TODO: What is <buffer> in the new nvim api?
-    vim.cmd([[
-      augroup LspAutoFormatting
-        autocmd!
-        autocmd BufWritePre <buffer> lua require('eden.modules.protocol.lsp.extensions.format').format()
-      augroup END
-    ]])
+    augroup("LspAutoFormatting", {
+      event = "BufWritePre",
+      buffer = true,
+      exec = function()
+        require("eden.modules.protocol.lsp.extensions.format").format()
+      end,
+    })
   end
 end
 
@@ -89,7 +105,7 @@ for _, v in ipairs(installer.get_installed_servers()) do
   installed[v.name] = v
 end
 
-local servers = { "bashls", "cmake", "elmls", "gopls", "pyright", "rnix", "rust_analyzer", "vimls" }
+local servers = { "bashls", "cmake", "elmls", "gopls", "omnisharp", "pyright", "rnix", "vimls" }
 local modlist = require("eden.lib.modlist").getmodlist(pack.modname .. ".protocol.lsp.servers")
 for _, mod in ipairs(modlist) do
   local name = mod:match("servers.(.+)$")

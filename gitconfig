@@ -114,5 +114,8 @@
 [status]
   submoduleSummary = true
 [user]
-	email = hzhang@surveymonkey.com
-	name = hzhang
+	email = hongoz@amazon.com
+	name = Hong Zhang
+[commit]
+  template = ~/.gitmessage
+
