@@ -77,7 +77,7 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 vim.cmd("packadd cmp-nvim-lsp")
 local has_cmp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
 if has_cmp then
-  capabilities = cmp_lsp.update_capabilities(capabilities)
+  capabilities = cmp_lsp.default_capabilities()
 end
 
 -- Server setup ----------------------------------------------------------------
@@ -105,7 +105,7 @@ for _, v in ipairs(installer.get_installed_servers()) do
   installed[v.name] = v
 end
 
-local servers = { "bashls", "cmake", "elmls", "gopls", "omnisharp", "pyright", "rnix", "vimls" }
+local servers = { "bashls", "cmake", "elmls", "gopls", "omnisharp", "pyright", "rnix", "vimls", "flow" }
 local modlist = require("eden.lib.modlist").getmodlist(pack.modname .. ".protocol.lsp.servers")
 for _, mod in ipairs(modlist) do
   local name = mod:match("servers.(.+)$")

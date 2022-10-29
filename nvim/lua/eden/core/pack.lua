@@ -142,7 +142,7 @@ function Packer:ensure_plugins()
 
     -- Packer has been clonned and should install missing plugins
     self:load_packer()
-    packer.install()
+    packer.sync()
   else
     -- NOTE: Because we have plugins, before and after in the module files we require to require the modules
     -- even if we are just loading the compiled file. This might change in the futureso that the module files
@@ -209,28 +209,12 @@ function M.load_compile()
 
   ---Use lockfile to build packer cache to the desired hashes
   command("PackUpdate", function()
-    -- Lockfile.should_apply = true
-    -- NOTE: It is required to re-initialize packer because packer does not expect that the use plugin_spec will change.
-    -- Some area where this causes issues are:
-    --   - The `manage` function where the packer_spec is first setup
-    --   - The `git` plugin type has a setup call where the installer_cmd and the updater_cmd set --depth to either 1 or
-    --     999999 depending on if `commit` exists
-    -- The load_packer function basiclly calls packer `init` which calls `reset`
-    -- Packer:load_packer()
     require("eden.core.pack").sync()
   end)
 
   ---Update plugins to their latest versions and update lockfile
   command("PackUpgrade", function()
-    -- Lockfile.should_apply = false
-    -- -- This is required for the same reason as the note above
-    -- Packer:load_packer()
-    -- require("eden.core.pack").sync()
-    -- require("eden.core.pack").set_on_packer_complete(function()
-    --   Lockfile.should_apply = true
-    --   Lockfile:update()
-    -- end)
-    require("eden.core.pack").upgrade()
+    require("eden.core.pack").sync({ nolockfile = true })
   end)
 
   command("PackInstall", function()
@@ -244,7 +228,7 @@ function M.load_compile()
   end)
 
   command("PackStatus", function()
-    require("eden.core.pack").status()
+    require("eden.core.path").status()
   end)
 
   command("PackProfile", function()

@@ -28,12 +28,6 @@ local eslint = {
 local prettier = {
   rootMarkers = { "package.json" },
   formatCommand = [[prettierd "${INPUT}"]],
-  -- formatCommand = (function()
-  --   local is_local = not vim.fn.empty(vim.loop.cwd() .. "/node_modules/.bin/prettier")
-  --   local cmd = is_local and "./node_modules/.bin/prettier" or "prettier"
-
-  --   return cmd .. " --stdin-filepath ${INPUT}"
-  -- end)(),
   formatStdin = true,
 }
 
@@ -57,10 +51,10 @@ M.setup = function(config, on_attach, opts)
     languages = {
       sh = { shfmt, shellcheck },
       lua = { stylua },
-      javascript = { eslint, prettier },
-      javascriptreact = { eslint, prettier },
-      typescript = { eslint, prettier },
-      typescriptreact = { eslint, prettier },
+      javascript = { prettier, eslint },
+      javascriptreact = { prettier, eslint },
+      typescript = { prettier, eslint },
+      typescriptreact = { prettier, eslint },
       html = { prettier },
       css = { prettier },
       json = { prettier },

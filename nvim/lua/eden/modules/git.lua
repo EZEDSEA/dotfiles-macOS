@@ -11,7 +11,7 @@ M.plugins = {
     end,
     config = function()
       nmap("<leader>ga", ":Git add %:p<cr>", { desc = "Add file" }) -- Stage current file
-      nmap("<leader>gd", ":Gdiffsplit<cr>", { desc = "Diff file" }) -- Diff current file
+      nmap("<leader>gd", ":Gvdiffsplit!<cr>", { desc = "Diff file" }) -- Diff current file
       nmap("<leader>gc", ":Git commit<cr>", { desc = "Commit" }) -- Create a git commit from staged changes
       nmap("<leader>gb", ":Git blame<cr>", { desc = "Blame file" }) -- Blame each line in file
     end,
