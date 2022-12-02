@@ -105,7 +105,7 @@ for _, v in ipairs(installer.get_installed_servers()) do
   installed[v.name] = v
 end
 
-local servers = { "bashls", "cmake", "elmls", "gopls", "omnisharp", "pyright", "rnix", "vimls" }
+local servers = { "bashls", "cmake", "elmls", "gopls", "omnisharp", "pyright", "rnix", "vimls", "flow" }
 local modlist = require("eden.lib.modlist").getmodlist(pack.modname .. ".protocol.lsp.servers")
 for _, mod in ipairs(modlist) do
   local name = mod:match("servers.(.+)$")
@@ -133,3 +133,21 @@ end
 for name, server in pairs(installed) do
   nlsp[name].setup(server._default_options or {})
 end
+
+-- Setup Barium LSP
+vim.cmd([[au BufReadPost,BufNewFile Config setf brazil-config]])
+
+local configs = require 'lspconfig.configs'
+if not configs.barium then
+    configs.barium = {
+        default_config = {
+            cmd = {'barium'};
+            filetypes = {'brazil-config'};
+            root_dir = function(fname)
+                return nlsp.util.find_git_ancestor(fname)
+            end;
+            settings = {};
+        };
+    }
+end
+nlsp.barium.setup {}

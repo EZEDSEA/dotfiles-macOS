@@ -65,6 +65,7 @@ local function disable_distibution_plugins()
   vim.g.loaded_remote_plugins = 1
   vim.g.loaded_spellfile_plugin = 1
   vim.g.loaded_shada_plugin = 1
+  vim.cmd([[ command! -nargs=1 Browse silent exec '!open' shellescape(<q-args>,1) ]])
 end
 
 -- Initalize runtimepath to contain the following locations

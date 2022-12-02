@@ -1,5 +1,7 @@
 local M = {}
 
+local brazil_config_plugin_path = '~/dotfiles/amazon/brazil-config'
+
 M.plugins = {
   -- Language Servers ---------------------------------------------------------
   {
@@ -24,6 +26,11 @@ M.plugins = {
     setup = function()
       require("eden.lib.defer").register("omnisharp_extended", "omnisharp-extended-lsp.nvim")
     end,
+  },
+
+  -- Barium lsp for brazil config
+  {
+    brazil_config_plugin_path
   },
 
   {

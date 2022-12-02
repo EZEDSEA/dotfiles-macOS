@@ -105,7 +105,7 @@
 
 [pull]
   # Don't flatten locally created merge commits when rebasing.
-  rebase = merges
+	rebase = true
 
 [push]
   # Refuse to push if upstream branch name is different from local.
@@ -119,3 +119,7 @@
 [commit]
   template = ~/.gitmessage
 
+[rebase]
+	autoStash = true
+[url "ssh://git.amazon.com"]
+	insteadOf = https://git.amazon.com

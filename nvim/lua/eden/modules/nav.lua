@@ -26,11 +26,11 @@ M.plugins = {
     requires = "kyazdani42/nvim-web-devicons",
   },
 
-  -- {
-  --   "folke/trouble.nvim",
-  --   conf = "nav.trouble",
-  --   requires = "kyazdani42/nvim-web-devicons",
-  -- },
+  {
+    "folke/trouble.nvim",
+    conf = "nav.trouble",
+    requires = "kyazdani42/nvim-web-devicons",
+  },
 
   {
     "theprimeagen/harpoon",
