@@ -3,11 +3,12 @@ local home = os.getenv("HOME")
 
 local M = {}
 
+M.seperator = package.config:sub(1, 1)
 -- Join a list of paths together
 -- @param ... string list
 -- @return string
 M.join = function(...)
-  return table.concat({ ... }, platform.sep)
+  return table.concat({ ... }, M.seperator)
 end
 
 -- Define default values for important path locations
@@ -17,7 +18,7 @@ M.datahome = M.join(home, ".local", "share", "nvim")
 M.cachehome = M.join(home, ".cache", "nvim")
 M.packroot = M.join(M.cachehome, "site", "pack")
 M.packer_compiled = M.join(M.datahome, "lua", "eden", "compiled.lua")
-M.module_path = M.join(M.confighome, "lua", "eden", "modules")
+M.module_path = M.join(M.confighome, "lua", "eden", "mod")
 
 -- Create a directory
 -- @param dir string
@@ -42,6 +43,31 @@ end
 ---@param path string
 M.remove_file = function(path)
   os.execute("rm " .. path)
+end
+
+M.ensure = function(path)
+  if not M.exists(path) then
+    M.create_dir(path)
+  end
+end
+
+M.read_file = function(path, mode)
+  mode = mode or "*a"
+  local file = io.open(path, "r")
+  if file then
+    local content = file:read(mode)
+    file:close()
+    return content
+  end
+end
+
+M.write_file = function(path, content, mode)
+  mode = mode or "w"
+  local file = io.open(path, mode)
+  if file then
+    file:write(content)
+    file:close()
+  end
 end
 
 edn.path = M

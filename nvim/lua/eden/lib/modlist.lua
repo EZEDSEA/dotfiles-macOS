@@ -14,10 +14,7 @@ end
 ---@return table
 function M.getmodlist(modpath, opts)
   opts = opts or {}
-  local runtimepath = path.join(path.confighome, "lua")
-  if opts.runtimepath then
-    runtimepath = opts.runtimepath
-  end
+  local runtimepath = path.join(opts.runtimepath or path.confighome, "lua")
 
   local function inner(mod, list)
     local filepath = get_filepath(mod, runtimepath)
@@ -30,9 +27,11 @@ function M.getmodlist(modpath, opts)
     local name, fstype = uv.fs_scandir_next(fs)
     while name ~= nil do
       if fstype == "file" then
-        local filename = name:match("(.+).lua")
-        local pluginmod = fmt("%s.%s", mod, filename)
-        table.insert(list, pluginmod)
+        if name:sub(1, 1) ~= "_" then
+          local filename = name:match("(.+).lua")
+          local pluginmod = fmt("%s.%s", mod, filename)
+          table.insert(list, pluginmod)
+        end
       elseif opts.recurse then
         inner(fmt("%s.%s", mod, name), list)
       end

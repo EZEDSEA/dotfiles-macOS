@@ -23,6 +23,12 @@ kmap({ "n", "x" }, "Y", "yg_")
 nmap("n", "nzzzv")
 nmap("N", "Nzzzv")
 
+-- Center cursor when using page jumps
+nmap("<c-d>", "<c-d>zz")
+nmap("<c-u>", "<c-u>zz")
+nmap("<c-f>", "<c-f>zz")
+nmap("<c-b>", "<c-b>zz")
+
 -- Switch between the last two buffers
 nmap("<leader><leader>", [[<c-^>\"zz]], { desc = "Last buffer" })
 
@@ -99,10 +105,17 @@ nmap("]q", ":cnext<cr>", { silent = true, desc = "Next quickfix" })
 -- nmap("<A-k>", "<cmd>lua require('eden.extend.winmove')('up')<cr>")
 -- nmap("<A-l>", "<cmd>lua require('eden.extend.winmove')('right')<cr>")
 
+if vim.env.TMUX == nil and vim.env.ZELLIJ == nil then
+  nmap("<c-h>", "<c-w>h")
+  nmap("<c-j>", "<c-w>j")
+  nmap("<c-k>", "<c-w>k")
+  nmap("<c-l>", "<c-w>l")
+end
+
 -- Exec current file
 nmap("<F1>", ":lua require('eden.core.util').exec_file()<cr>")
 nmap("<F2>", ":lua require('eden.core.util').open_url_under_cursor()<cr>")
-nmap("<F3>", "<cmd>lua require('eden.lib.reload').reload_config()<cr>")
+-- nmap("<F3>", "<cmd>lua require('eden.lib.reload').reload_config()<cr>")
 
 tmap("<esc>", [[<c-\><c-n>]])
 tmap("<c-q>", [[<c-\><c-n>:bdelete!<cr>]])
