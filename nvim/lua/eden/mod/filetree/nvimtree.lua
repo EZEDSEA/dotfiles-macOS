@@ -11,7 +11,6 @@ return {
     -- }
 
     require("nvim-tree").setup({
-      ignore_ft_on_setup = { ".git", "node_modules" },
       update_focused_file = {
         enable = true,
       },

@@ -108,6 +108,7 @@ local servers = {
   "rnix",
   "vimls",
   "yamlls",
+  "flow",
 }
 local modlist = require("eden.lib.modlist").getmodlist(premod .. "servers")
 for _, mod in ipairs(modlist) do
@@ -139,3 +140,21 @@ for name, server in pairs(installed) do
     s.setup(server._default_options or {})
   end
 end
+
+-- Setup Barium LSP
+vim.cmd([[au BufReadPost,BufNewFile Config setf brazil-config]])
+
+local configs = require 'lspconfig.configs'
+if not configs.barium then
+    configs.barium = {
+        default_config = {
+            cmd = {'barium'};
+            filetypes = {'brazil-config'};
+            root_dir = function(fname)
+                return nlsp.util.find_git_ancestor(fname)
+            end;
+            settings = {};
+        };
+    }
+end
+nlsp.barium.setup {}

@@ -24,7 +24,9 @@ M.format = function()
   if M.should_format then
     local filetype = vim.api.nvim_buf_get_option(0, "filetype")
     local filter = M.ft_filters[filetype]
-    vim.lsp.buf.format({ async = false, filter = filter })
+    vim.lsp.buf.format({
+      async = false,
+      filter = function(client) return client.name ~="tsserver" end })
   end
 end
 

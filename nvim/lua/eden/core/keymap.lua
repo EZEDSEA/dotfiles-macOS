@@ -59,16 +59,20 @@ vmap("-", "g<C-x>")
 nmap([[\]], ":<c-u><up><cr>")
 
 nmap("dd", function()
-  if vim.api.nvim_get_current_line():match("^%s*$") then
-    return '"_dd'
-  else
-    return "dd"
-  end
+    if vim.api.nvim_get_current_line():match("^%s*$") then
+        return '"_dd'
+    else
+        return "dd"
+    end
 end, { expr = true, silent = true })
+
+-- Diffview
+nmap("<leader>gv", ":DiffviewFileHistory %<cr>", { desc = "View Git File History" })
+nmap("<leader>gV", ":DiffviewFileHistory<cr>", { desc = "View Git Project History" })
 
 -- Toggle highlight search
 nmap("<leader>th", function()
-  vim.opt.hlsearch = not vim.o.hlsearch
+    vim.opt.hlsearch = not vim.o.hlsearch
 end, { desc = "Highlight" })
 
 nmap("<leader>w", [[:<c-u>w<cr>]], { desc = "Write file" })
@@ -76,11 +80,11 @@ nmap("<leader>q", [[:<c-u>q<cr>]], { desc = "Quit buffer" })
 nmap("<leader>!", [[:<c-u>q!<cr>]], { desc = "Force quit buffer" })
 
 nmap("<leader>tn", function()
-  require("eden.core.util").toggle_numbers()
+    require("eden.core.util").toggle_numbers()
 end, { desc = "Number line" })
 
 nmap("<leader>bm", function()
-  require("eden.extend.bufmax").toggle()
+    require("eden.extend.bufmax").toggle()
 end, { desc = "Max buffer" })
 
 nmap("<leader>tt", ":Telescope colorscheme<cr>", { desc = "Colorscheme" })

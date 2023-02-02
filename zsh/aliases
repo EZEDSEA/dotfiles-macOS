@@ -18,7 +18,7 @@ alias bbb='brc --allPackages brazil-build'
 alias latest='f() { git fetch && brazil ws use -p "${PWD##*/}" --latestVersion };f'
 
 # Misc
-alias auth='kinit && mwinit'
+alias auth='kinit && mwinit -s'
 alias uni='$DOTFILES/start_unison.sh'
 #alias terminal-notifier=/terminal-notifier
 
@@ -60,7 +60,7 @@ alias ed='$EDITOR $DOTFILES'
 alias ef='$EDITOR $DOTFILES/zsh/functions'
 alias ep='$EDITOR $DOTFILES/zsh/prompt'
 alias et='$EDITOR ~/.tmux.conf'
-alias ev='$EDITOR $XDG_CONFIG_HOME/nvim/init.vim'
+alias ev='$EDITOR $XDG_CONFIG_HOME/nvim/init.lua'
 alias evl='$EDITOR ~/.vimrc.local'
 alias ez='$EDITOR ~/.zshrc'
 alias ezl='$EDITOR ~/.zshrc.local'

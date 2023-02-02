@@ -51,6 +51,7 @@ if not platform.is.win then
 
     -- js,ts
     formatting.prettierd,
+    formatting.eslint_d,
 
     -- sh
     diagnostic.shellcheck,
@@ -71,6 +72,7 @@ end
 if platform.is.win then
   -- js,ts
   check("prettierd", formatting.prettierd)
+  check("eslint_d", formatting.eslint_d)
 
   -- sh
   check("shellcheck", diagnostic.shellcheck)

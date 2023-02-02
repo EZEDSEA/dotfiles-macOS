@@ -9,7 +9,14 @@ return {
       nmap("<leader>gc", ":Git commit<cr>", { desc = "Commit" }) -- Create a git commit from staged changes
       nmap("<leader>gb", ":Git blame<cr>", { desc = "Blame file" }) -- Blame each line in file
     end,
-    cmd = { "Git", "Gdiffsplit" },
+    -- cmd = { "Git", "Gdiffsplit" },
+  },
+  {
+    "sindrets/diffview.nvim",
+    opt = true,
+    config = function()
+      require("diffview").setup()
+    end,
   },
   {
     "TimUntersberger/neogit",
@@ -17,7 +24,11 @@ return {
       nmap("<leader>gn", "<cmd>Neogit<cr>", { desc = "Neogit" })
     end,
     config = function()
-      require("neogit").setup()
+      require("neogit").setup({
+        integrations = {
+          diffview = true
+        },
+      })
     end,
     cmd = { "Neogit" },
     dependencies = { "nvim-lua/plenary.nvim" },
@@ -55,4 +66,6 @@ return {
       })
     end,
   },
+  -- amazon code browser
+  { url = 'hongoz@git.amazon.com:pkg/Vim-code-browse' },
 }

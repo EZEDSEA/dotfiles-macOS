@@ -1,3 +1,5 @@
+local brazil_config_plugin_path = '~/dotfiles/amazon/brazil-config'
+
 return {
   { "teal-language/vim-teal" },
   { "NoahTheDuke/vim-just" },
@@ -18,6 +20,11 @@ return {
     event = "BufReadPost",
     build = ":TSInstall nu",
     dependencies = "nvim-treesitter/nvim-treesitter",
+  },
+
+  -- Barium lsp for brazil config
+  {
+    dir = brazil_config_plugin_path
   },
 
   {
