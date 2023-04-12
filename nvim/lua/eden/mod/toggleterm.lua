@@ -1,7 +1,7 @@
 return {
   "akinsho/nvim-toggleterm.lua",
   cmd = { "ToggleTerm" },
-  keys = { "<c-space>" },
+  keys = { "<c-space>", "<c-tab>" },
   config = function()
     local Terminal = require("toggleterm.terminal").Terminal
 
@@ -50,5 +50,6 @@ return {
     end
 
     nmap("<c-space>", [[<cmd>lua toggle_terminal('default')<cr>]], { desc = "Toggle term" })
+    nmap("<F4>", ":ToggleTermToggleAll<cr>", { desc = "Toggle all term" })
   end,
 }

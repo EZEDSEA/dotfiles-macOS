@@ -1,7 +1,7 @@
 local M = {
   lua = function(_)
     local filter = function(client)
-      return client.name ~= "sumneko_lua"
+      return client.name ~= "lua_ls"
     end
     require("eden.mod.lsp.extensions.format").add_ft_filter("lua", filter, false)
   end,

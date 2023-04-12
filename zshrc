@@ -67,3 +67,4 @@ export KEYTIMEOUT=1
 
 . $HOME/dotfiles/zsh/profiler.stop
 
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"

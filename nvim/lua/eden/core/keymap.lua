@@ -69,6 +69,7 @@ end, { expr = true, silent = true })
 -- Diffview
 nmap("<leader>gv", ":DiffviewFileHistory %<cr>", { desc = "View Git File History" })
 nmap("<leader>gV", ":DiffviewFileHistory<cr>", { desc = "View Git Project History" })
+nmap("<leader>gO", ":DiffviewOpen<cr>", { desc = "View Git Diff" })
 
 -- Toggle highlight search
 nmap("<leader>th", function()

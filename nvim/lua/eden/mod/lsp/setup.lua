@@ -9,30 +9,31 @@ require(premod .. "handlers")
 require(premod .. "null_ls")
 
 require("fidget").setup({
-  fmt = {
-    stack_upwards = false,
-  },
-  text = {
-    spinner = "dots_negative",
-  },
-  window = {
-    blend = 0,
-  },
+    fmt = {
+        stack_upwards = false,
+    },
+    text = {
+        spinner = "dots_negative",
+    },
+    window = {
+        blend = 0,
+    },
 })
 
 vim.opt.updatetime = 300
 
-require("lsp-inlayhints").setup({ -- « »
-  inlay_hints = {
-    max_len_align = true,
-    parameter_hints = {
-      prefix = "« ",
+require("lsp-inlayhints").setup({
+-- « »
+    inlay_hints = {
+        max_len_align = true,
+        parameter_hints = {
+            prefix = "« ",
+        },
+        type_hints = {
+            prefix = "» ",
+        },
+        -- max_len_align = true,
     },
-    type_hints = {
-      prefix = "» ",
-    },
-    -- max_len_align = true,
-  },
 })
 
 local function on_init(client)
@@ -48,17 +49,20 @@ local function on_attach(client, bufnr)
   require("lsp_signature").on_attach({})
   require("lsp-inlayhints").on_attach(client, bufnr)
 
+  -- added for old TS support https://github.com/lvimuser/lsp-inlayhints.nvim#configuration
+  require("lsp-inlayhints.adapter").set_old_tsserver()
+
   filetype_attach[filetype](client)
 
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
   if client.server_capabilities.documentFormattingProvider then
     augroup("LspAutoFormatting", {
-      event = "BufWritePre",
-      buffer = true,
-      exec = function()
-        require("eden.mod.lsp.extensions.format").format()
-      end,
+        event = "BufWritePre",
+        buffer = true,
+        exec = function()
+          require("eden.mod.lsp.extensions.format").format()
+        end,
     })
   end
 end
@@ -81,13 +85,13 @@ end
 -- `mason`. This makes installing language servers on windows sane.
 
 require("mason").setup({
-  install_root_dir = path.join(path.cachehome, "mason"),
+    install_root_dir = path.join(path.cachehome, "mason"),
 })
 
 -- Map installed package list to table by name
 local mason_lspconfig_map = {
-  ["lua-language-server"] = "sumneko_lua",
-  ["yaml-language-server"] = "yamlls",
+    ["lua-language-server"] = "lua_ls",
+    ["yaml-language-server"] = "yamlls",
 }
 
 local registry = require("mason-registry")
@@ -98,17 +102,17 @@ for _, v in ipairs(registry.get_installed_packages()) do
 end
 
 local servers = {
-  "bashls",
-  "cmake",
-  "elmls",
-  "gopls",
-  "marksman",
-  "omnisharp",
-  "pyright",
-  "rnix",
-  "vimls",
-  "yamlls",
-  "flow",
+    "bashls",
+    "cmake",
+    "elmls",
+    "gopls",
+    "marksman",
+    "omnisharp",
+    "pyright",
+    "rnix",
+    "vimls",
+    "yamlls",
+    "flow",
 }
 local modlist = require("eden.lib.modlist").getmodlist(premod .. "servers")
 for _, mod in ipairs(modlist) do
@@ -146,15 +150,15 @@ vim.cmd([[au BufReadPost,BufNewFile Config setf brazil-config]])
 
 local configs = require 'lspconfig.configs'
 if not configs.barium then
-    configs.barium = {
-        default_config = {
-            cmd = {'barium'};
-            filetypes = {'brazil-config'};
-            root_dir = function(fname)
-                return nlsp.util.find_git_ancestor(fname)
-            end;
-            settings = {};
-        };
-    }
+  configs.barium = {
+      default_config = {
+          cmd = { 'barium' },
+          filetypes = { 'brazil-config' },
+          root_dir = function(fname)
+            return nlsp.util.find_git_ancestor(fname)
+          end,
+          settings = {},
+      },
+  }
 end
 nlsp.barium.setup {}

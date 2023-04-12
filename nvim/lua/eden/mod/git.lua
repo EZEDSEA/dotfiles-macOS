@@ -17,6 +17,7 @@ return {
     config = function()
       require("diffview").setup()
     end,
+    dependencies = { "nvim-lua/plenary.nvim" },
   },
   {
     "TimUntersberger/neogit",
