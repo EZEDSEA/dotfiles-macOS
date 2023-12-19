@@ -113,11 +113,6 @@ local function set_runtime_path()
   vim.opt.packpath = result
 end
 
-local function open_nvim_tree()
-  -- open the tree
-  require("nvim-tree.api").tree.open()
-end
-
 -- Initialize leader key to <space>, and `,` to localleader
 local function set_leader_keys()
   vim.g.mapleader = " "
@@ -128,8 +123,6 @@ local function set_leader_keys()
   vim.api.nvim_set_keymap("x", " ", "", { noremap = true })
   vim.api.nvim_set_keymap("n", ",", "", { noremap = true })
   vim.api.nvim_set_keymap("x", ",", "", { noremap = true })
-  -- Open nvim tree
-  vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 end
 
 -- Entry point

@@ -1,8 +1,8 @@
 # ~/.zshrc
 . $HOME/dotfiles/zsh/profiler.start
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.yarn/bin
-export EDITOR="nvim"
-export BUNDLER_EDITOR=$EDITOR
+# export EDITOR="nvim"
+# export BUNDLER_EDITOR=$EDITOR
 export MANPAGER="less -X" # Don’t clear the screen after quitting a manual page
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 export SOURCE_ANNOTATION_DIRECTORIES="spec"
@@ -68,3 +68,6 @@ export KEYTIMEOUT=1
 . $HOME/dotfiles/zsh/profiler.stop
 
 export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+
+# bun completions
+[ -s "/Users/hongoz/.bun/_bun" ] && source "/Users/hongoz/.bun/_bun"

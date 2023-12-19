@@ -130,3 +130,12 @@ tmap("<c-k>", [[<c-\><c-n><c-w>k]])
 tmap("<c-l>", [[<c-\><c-n><c-w>l]])
 
 nmap("<leader>gB", ":GBrowse<cr>")
+
+local function map(m, k, v, desc)
+    if desc then
+        desc = "Desc: " .. desc
+    end
+    vim.keymap.set(m, k, v, { silent = true }, { desc = desc })
+end
+
+nmap("<leader>cw", ":CWGenerateNvim<cr>")

@@ -18,7 +18,7 @@ alias bbb='brc --allPackages brazil-build'
 alias latest='f() { git fetch && brazil ws use -p "${PWD##*/}" --latestVersion };f'
 
 # Misc
-alias auth='kinit && mwinit -s'
+alias auth='kinit -f && mwinit -s'
 alias uni='$DOTFILES/start_unison.sh'
 #alias terminal-notifier=/terminal-notifier
 
@@ -77,7 +77,7 @@ alias t4a='tree -La 4'
 alias tree='tree -CF'
 
 # Neovim
-alias vi='nvim'
+# alias vi='nvim'
 alias vim='nvim'
 alias vir='nvim -R'
 alias vv='nvim --version | less'

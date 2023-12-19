@@ -60,5 +60,13 @@ return {
       end,
       requires = { "nvim-telescope/telescope.nvim" },
   },
-
+  -- amazon code whisperer
+  -- {
+  --   "https://git.amazon.com/pkg/AmazonCodeWhispererVimPlugin",
+  --   name = "codewhisperer",
+  --   build = [[cat ~/.local/share/nvim/lazy/codewhisperer/service-2.json | jq '.metadata += {"serviceId":"codewhisperer"}' | tee /tmp/aws-coral-model.json && aws configure add-model --service-model file:///tmp/aws-coral-model.json --service-name codewhisperer]],
+  --   dependencies = {
+  --       { "nvim-telescope/telescope.nvim" },
+  --   },
+  -- }
 }
