@@ -1,38 +1,28 @@
-local path = require("eden.core.path")
+vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 local opt = vim.opt
-
-local backup = path.join(path.cachehome, "backup")
-local swap = path.join(path.cachehome, "swap")
-local undo = path.join(path.cachehome, "undo")
-local view = path.join(path.cachehome, "view")
-
-path.create_dir(backup)
-path.create_dir(swap)
-path.create_dir(undo)
-path.create_dir(view)
-
--- Cached directories
-opt.backupdir = backup
-opt.directory = swap
-opt.undodir = undo
-opt.undofile = true
-opt.viewdir = view
 
 opt.autoindent = true -- maintain indent of current line
 opt.breakindent = true -- continue indent visually
 opt.belloff = "all" -- I NEVER want to hear this bell for ANY reason
--- opt.clipboard = "unnamedplus" -- use '+' register for all yanks, and deletes
+-- opt.clipboard = "unnamedplus" -- use '+' register for all yanks, and deletes, sync with system clipboard
+opt.confirm = true -- confirm to save changes before closing modified buffer
+opt.completeopt = "menu,menuone,noselect"
 opt.cursorline = true -- highlight current line
+opt.colorcolumn = { "+1" }
 opt.expandtab = true -- always use spaces instead of tabs
-opt.foldlevelstart = 99 -- start unfolded
+-- opt.foldlevelstart = 99 -- start unfolded
+opt.foldenable = false
+opt.grepformat = "%f:%l:%c:%m"
+opt.grepprg = "rg --vimgrep"
 opt.hidden = true -- allows you to hide buffers with unsaved changes without being prompted
 opt.ignorecase = true -- ignore case in search
 opt.inccommand = "split" -- line preview of :s results
 opt.incsearch = true -- do incremental searching
 opt.joinspaces = true -- don't autoinsert two spaces after '.', '?', '!' for join command
 opt.laststatus = 3 -- use global statusline
-opt.lazyredraw = true -- dont bother updating screen durring macro playback
+-- opt.lazyredraw = true -- dont bother updating screen durring macro playback
 opt.linebreak = true -- wrap long lines at characters in 'breakat'
 opt.list = true -- show whitespace
 opt.modelines = 5 -- scan this many lines looking for modeline
@@ -41,12 +31,13 @@ opt.number = true -- dont show numbers by default. if I need it I can toggle wit
 -- opt.pumblend = 15 -- pseudo-transparency for popup window
 opt.relativenumber = false -- dont show relnumbers by default. if I need numbers I can toggle with maps
 opt.scrolloff = 3 -- start scrolling 3 lines before edge of view port
+opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" } -- what to store in the mksession command
 opt.shiftround = true -- always indent by multiple of shiftwidth
-opt.shiftwidth = 4 -- spaces per tab (when shifting)
+opt.shiftwidth = 2 -- spaces per tab (when shifting)
 opt.showbreak = "↳ " -- downwards arrow with tip rightwards(U+21B3, UTF-8: E2 86 B3)
 opt.showcmd = false -- dont show extra info at end of command line
 opt.showmode = false -- I have a status line for this
-opt.sidescrolloff = 3 -- same as 'scrolloff' but for columns
+opt.sidescrolloff = 8 -- same as 'scrolloff' but for columns
 opt.signcolumn = "number" -- always show sign column. currently there is a visual desync when this is auto. (#14195)
 opt.smartcase = true -- use case sensitive search if capital letter is present
 opt.smarttab = true -- <tab><bs> indent/deindent in leading whitespace
@@ -56,15 +47,18 @@ opt.splitbelow = true -- open horizontal splits below the current one
 opt.splitright = true -- open vertical splits right of the current one
 opt.switchbuf = "usetab" -- try to reuse windows/tabs when switching buffers
 opt.synmaxcol = 200 -- dont bother syntax highlighting long lines
-opt.tabstop = 4 -- spaces per tab as editor defualt
+opt.tabstop = 2 -- spaces per tab as editor defualt
 opt.termguicolors = true -- use 24bit colors in tui
 opt.textwidth = 120 -- automatically hard wrap at 120 columns by default
+opt.timeoutlen = 300 -- number of ms to wait for a mapped sequence to complete
 opt.title = false -- the title of the window to 'titlestring'
 opt.ttyfast = true -- let vim know that I am using a fast term
 opt.virtualedit = "block" -- allow cursor to move where there is no text in visual block mode
 opt.visualbell = false -- stop beeping for non-error errors, please god
 opt.wildmenu = true -- show options as list when switching buffers etc
-opt.winbar = "%{%v:lua.require'eden.extend.winbar'.generate()%}"
+opt.winbar = "%{%v:lua.require'eden.util.winbar'.generate()%}"
+opt.undofile = true
+opt.undolevels = 10000
 
 opt.breakindentopt = {
   shift = 2, -- wrapped line's beginning will be shifted by the given number of

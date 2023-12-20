@@ -10,15 +10,11 @@ local function rust_crate()
   local results = {}
   for _, package in ipairs(metadata.packages) do
     for _, target in ipairs(package.targets) do
-      if vim.tbl_contains(target.kind, "bin") then
-        table.insert(results, target_dir .. "/debug/" .. target.name)
-      end
+      if vim.tbl_contains(target.kind, "bin") then table.insert(results, target_dir .. "/debug/" .. target.name) end
     end
   end
 
-  if #results == 1 then
-    return results[1]
-  end
+  if #results == 1 then return results[1] end
   return util.user_select("Select target:", results)
 end
 
@@ -54,9 +50,7 @@ dap.configurations.rust = {
     name = "Debug Crate",
     type = "lldb_rust",
     request = "launch",
-    program = function()
-      return rust_crate()
-    end,
+    program = function() return rust_crate() end,
     args = {},
   },
   {

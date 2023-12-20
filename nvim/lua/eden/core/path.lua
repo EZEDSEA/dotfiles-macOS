@@ -4,31 +4,24 @@ local home = os.getenv("HOME")
 local M = {}
 
 M.seperator = package.config:sub(1, 1)
+
 -- Join a list of paths together
 -- @param ... string list
 -- @return string
-M.join = function(...)
-  return table.concat({ ... }, M.seperator)
-end
+M.join = function(...) return table.concat({ ... }, M.seperator) end
 
 -- Define default values for important path locations
 M.home = home
 M.confighome = M.join(home, ".config", "nvim")
 M.datahome = M.join(home, ".local", "share", "nvim")
 M.cachehome = M.join(home, ".cache", "nvim")
-M.packroot = M.join(M.cachehome, "site", "pack")
-M.packer_compiled = M.join(M.datahome, "lua", "eden", "compiled.lua")
 M.module_path = M.join(M.confighome, "lua", "eden", "mod")
 
 -- Create a directory
 -- @param dir string
 M.create_dir = function(dir)
   local state = vim.loop.fs_stat(dir)
-  if not state then
-    vim.loop.fs_mkdir(dir, 511, function()
-      assert("Failed to make path:" .. dir)
-    end)
-  end
+  if not state then vim.loop.fs_mkdir(dir, 511, function() assert("Failed to make path:" .. dir) end) end
 end
 
 -- Returns if the path exists on disk
@@ -41,14 +34,10 @@ end
 
 ---Remove file from file system
 ---@param path string
-M.remove_file = function(path)
-  os.execute("rm " .. path)
-end
+M.remove_file = function(path) os.execute("rm " .. path) end
 
 M.ensure = function(path)
-  if not M.exists(path) then
-    M.create_dir(path)
-  end
+  if not M.exists(path) then M.create_dir(path) end
 end
 
 M.read_file = function(path, mode)
@@ -69,7 +58,5 @@ M.write_file = function(path, content, mode)
     file:close()
   end
 end
-
-edn.path = M
 
 return M

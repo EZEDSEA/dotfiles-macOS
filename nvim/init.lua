@@ -1,1 +1,1 @@
-require("eden.bootstrap")
+require("eden.core")

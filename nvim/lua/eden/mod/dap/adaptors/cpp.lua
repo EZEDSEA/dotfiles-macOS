@@ -22,9 +22,7 @@ dap.configurations.c = {
     name = "Launch",
     type = "lldb_cpp",
     request = "launch",
-    program = function()
-      return util.basic_file_path()
-    end,
+    program = function() return util.basic_file_path() end,
     args = {},
   },
   {

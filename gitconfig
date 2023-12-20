@@ -123,3 +123,6 @@
 	autoStash = true
 [url "ssh://git.amazon.com"]
 	insteadOf = https://git.amazon.com
+	insteadOf = https://git.amazon.com
+[url "git@github.com:"]
+	insteadOf = https://github.com/
