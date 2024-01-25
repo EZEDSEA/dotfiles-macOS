@@ -174,6 +174,10 @@ return {
         -- lua
         formatting.stylua.with(with.stylua),
 
+        -- js/ts
+        formatting.prettierd,
+        formatting.eslint_d,
+
         -- shell
         diagnostic.shellcheck,
         formatting.shfmt.with(with.shfmt),

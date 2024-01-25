@@ -59,14 +59,6 @@ map("n", "]t", "<cmd>tabnext<cr>", { silent = true, desc = "Next tab" })
 
 -- Window movement ------------------------------------------------------------
 
--- Move to window using the <ctrl> hjkl keys
--- if vim.env.TMUX == nil and vim.env.ZELLIJ == nil then
-map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
-map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
-map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
-map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
--- end
-
 -- -- Resize window using <ctrl> arrow keys
 -- map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
 -- map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
