@@ -18,7 +18,7 @@ alias bbb='brc --allPackages brazil-build'
 alias latest='f() { git fetch && brazil ws use -p "${PWD##*/}" --latestVersion };f'
 
 # Misc
-alias auth='kinit -f && mwinit -s'
+alias auth='kinit -f && mwinit'
 alias uni='$DOTFILES/start_unison.sh'
 #alias terminal-notifier=/terminal-notifier
 

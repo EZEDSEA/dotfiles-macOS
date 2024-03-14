@@ -68,8 +68,6 @@ return {
         }),
         desc = "Goto Symbol (Workspace)",
       },
-      -- Codewhisperer
-      {"<leader>cW", "<cmd>:CWGenerateNvim<CR>", { silent = true },  desc = "CodeWhisperer" },
     },
     config = function()
       local ts = require("telescope")
