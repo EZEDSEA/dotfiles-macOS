@@ -55,12 +55,10 @@ return {
     end,
   },
 
-  -- {
-  --   "nightfox-org/nicefox.nvim",
-  --   lazy = false,
-  --   priority = 1000,
-  --   dev = true,
-  -- },
+  {
+    "Biscuit-Colorscheme/nvim",
+    name = "biscuit",
+  },
 
   {
     "catppuccin/nvim",

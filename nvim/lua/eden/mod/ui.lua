@@ -144,65 +144,45 @@ return {
   -- indent guides for Neovim
   {
     "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
     event = { "BufReadPost", "BufNewFile" },
-    opts = {
-      indent = {
-        char = "│",
-      },
-      exclude = {
-        filetypes = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy" },
-      },
-      whitespace = {
-        remove_blankline_trail = false,
-      },
-      scope = {
-        show_start = false,
-      }
-    },
-    -- config = function()
-    --   require("indent_blankline").setup({
-    --     char = "│",
-    --     filetype_exclude = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy" },
-    --     show_first_indent_level = false,
-    --     show_trailing_blankline_indent = false,
-    --     show_current_context = true,
-    --     show_current_context_start = false, -- underline the start
-    --   })
-    -- end,
+    config = function()
+      require("ibl").setup({
+        exclude = { filetypes = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy" } },
+      })
+    end,
   },
 
   -- noicer ui
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("noice").setup({
-        cmdline = {
-          view = "cmdline",
-        },
-        lsp = {
-          override = {
-            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-            ["vim.lsp.util.stylize_markdown"] = true,
-          },
-        },
-        presets = {
-          bottom_search = true,
-          long_message_to_split = true,
-        },
-      })
-    end,
-    -- stylua: ignore
-    keys = {
-      { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
-      { "<leader>snl", function() require("noice").cmd("last") end, desc = "Noice Last Message" },
-      { "<leader>snh", function() require("noice").cmd("history") end, desc = "Noice History" },
-      { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice All" },
-      { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll forward", mode = {"i", "n", "s"} },
-      { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll backward", mode = {"i", "n", "s"}},
-    },
-  },
+  -- {
+  --   "folke/noice.nvim",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     require("noice").setup({
+  --       cmdline = {
+  --         view = "cmdline",
+  --       },
+  --       lsp = {
+  --         override = {
+  --           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+  --           ["vim.lsp.util.stylize_markdown"] = true,
+  --         },
+  --       },
+  --       presets = {
+  --         bottom_search = true,
+  --         long_message_to_split = true,
+  --       },
+  --     })
+  --   end,
+  --   -- stylua: ignore
+  --   keys = {
+  --     { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
+  --     { "<leader>snl", function() require("noice").cmd("last") end, desc = "Noice Last Message" },
+  --     { "<leader>snh", function() require("noice").cmd("history") end, desc = "Noice History" },
+  --     { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice All" },
+  --     { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll forward", mode = {"i", "n", "s"} },
+  --     { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll backward", mode = {"i", "n", "s"}},
+  --   },
+  -- },
 
   -- dashboard
   {
@@ -294,5 +274,23 @@ return {
 
   -- ui components
   { "MunifTanjim/nui.nvim", lazy = true },
+    -- code whisperer
+  {
+    "https://git.amazon.com/pkg/AmazonCodeWhispererVimPlugin",
+    name = "codewhisperer",
+    cmd = { "CWGenerateNvim", "CWTest", "CWPythonVersion" },
+    keys = {
+      { "<C-w>", "<cmd>:CWGenerateNvim<CR>", mode = { "i" }, desc = "CodeWhisperer complete" },
+    },
+    build = [[cat ~/.local/share/nvim/lazy/codewhisperer/service-2.json | jq '.metadata += {"serviceId":"codewhisperer"}' | tee /tmp/aws-coral-model.json && aws configure add-model --service-model file:///tmp/aws-coral-model.json --service-name codewhisperer]],
+    dependencies = {
+        { "nvim-telescope/telescope.nvim" },
+    },
+    config = function()
+      require("codewhisperer").setup()
+    end,
+
+    vim.keymap.set({"n", "i"}, "<C-w>", "<cmd>:CWGenerateNvim<CR>", { silent = true })
+  },
 
 }

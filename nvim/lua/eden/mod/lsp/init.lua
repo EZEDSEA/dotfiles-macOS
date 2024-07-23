@@ -22,6 +22,7 @@ return {
       "williamboman/mason-lspconfig.nvim",
       "lvimuser/lsp-inlayhints.nvim",
       "hrsh7th/cmp-nvim-lsp",
+      { "j-hui/fidget.nvim", opts = {} },
     },
     config = function()
       -- diagnostics
@@ -67,6 +68,7 @@ return {
 
       local servers = {
         bashls = {},
+        clangd = {},
         rust_analyzer = {
           settings = {
             ["rust-analyzer"] = {
@@ -112,8 +114,8 @@ return {
             },
           },
         },
+        nixd = {},
         pyright = {},
-        rnix = {},
         vimls = {},
       }
 
@@ -132,8 +134,8 @@ return {
       end
 
       mlsp.setup_handlers({ setup })
-
     end,
+
     cmd = function ()
         local lspconfig = require 'lspconfig'
         local configs = require 'lspconfig.configs'
@@ -175,7 +177,6 @@ return {
           cwd = help.cache.by_bufnr(
             function(params) return util.root_pattern(".git", "stylua.toml")(params.bufname) end
           ),
-          extra_args = { "--indent-type", "Spaces", "--indent-width", "2" },
         },
         vale = {
           extra_args = { "--config", path.join(path.home, ".config", "vale", "config.ini") },

@@ -1,4 +1,4 @@
-return {
+local spec = {
   -- file explorer
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -14,8 +14,20 @@ return {
         function() require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() }) end,
         desc = "Explorer NeoTree (cwd)",
       },
-      { "<leader>e", "<leader>fe", desc = "Explorer NeoTree (root dir)", remap = true },
-      { "<leader>E", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
+      {
+        "<leader>e",
+        function()
+          require("neo-tree.command").execute({ toggle = true, reveal = true, dir = require("eden.util").get_root() })
+        end,
+        desc = "Explorer NeoTree (root dir)",
+        remap = true,
+      },
+      {
+        "<leader>E",
+        function() require("neo-tree.command").execute({ toggle = true, reveal = true, dir = vim.loop.cwd() }) end,
+        desc = "Explorer NeoTree (cwd)",
+        remap = true,
+      },
     },
     deactivate = function() vim.cmd([[Neotree close]]) end,
     init = function()
@@ -48,8 +60,11 @@ return {
     config = function()
       require("neo-tree").setup({
         filesystem = {
+          hide_dotfiles = false,
           bind_to_cwd = false,
-          follow_current_file = true,
+          follow_current_file = {
+            enable = true,
+          },
         },
         window = {
           mappings = {
@@ -274,28 +289,67 @@ return {
   },
 
   {
-    "edeneast/harpoon",
+    "theprimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
       -- qwerty
-      { "<M-h>", function() require("harpoon.ui").nav_file(1) end, desc = "Harpoon 1" },
-      { "<M-j>", function() require("harpoon.ui").nav_file(2) end, desc = "Harpoon 2" },
-      { "<M-k>", function() require("harpoon.ui").nav_file(3) end, desc = "Harpoon 3" },
-      { "<M-l>", function() require("harpoon.ui").nav_file(4) end, desc = "Harpoon 3" },
+      { "<M-h>", function() require("harpoon"):list():select(1) end, desc = "Harpoon 1" },
+      { "<M-j>", function() require("harpoon"):list():select(2) end, desc = "Harpoon 2" },
+      { "<M-k>", function() require("harpoon"):list():select(3) end, desc = "Harpoon 3" },
+      { "<M-l>", function() require("harpoon"):list():select(4) end, desc = "Harpoon 3" },
       -- colemak
-      { "<M-n>", function() require("harpoon.ui").nav_file(1) end, desc = "Harpoon 1" },
-      { "<M-e>", function() require("harpoon.ui").nav_file(2) end, desc = "Harpoon 2" },
-      { "<M-i>", function() require("harpoon.ui").nav_file(3) end, desc = "Harpoon 3" },
-      { "<M-o>", function() require("harpoon.ui").nav_file(4) end, desc = "Harpoon 4" },
+      { "<M-n>", function() require("harpoon"):list():select(1) end, desc = "Harpoon 1" },
+      { "<M-e>", function() require("harpoon"):list():select(2) end, desc = "Harpoon 2" },
+      { "<M-i>", function() require("harpoon"):list():select(3) end, desc = "Harpoon 3" },
+      { "<M-o>", function() require("harpoon"):list():select(4) end, desc = "Harpoon 4" },
 
-      { "<M-a>", function() require("harpoon.mark").add_file() end, desc = "Harpoon add" },
-      { "<leader>uh", function() require("harpoon.ui").toggle_quick_menu() end, desc = "Harpoon" },
+      { "<M-a>", function() require("harpoon"):list():append() end, desc = "Harpoon add" },
+      {
+        "<leader>uh",
+        function()
+          local h = require("harpoon")
+          h.ui:toggle_quick_menu(h:list())
+        end,
+        desc = "Harpoon",
+      },
     },
     config = function()
-      require("harpoon").setup({
-        menu = {
-          width = function() return math.max(60, math.floor(vim.api.nvim_win_get_width(0) * 0.8)) end,
-        },
-      })
+      require("harpoon").setup({})
+      -- require("harpoon").setup({
+      --   menu = {
+      --     width = function() return math.max(60, math.floor(vim.api.nvim_win_get_width(0) * 0.8)) end,
+      --   },
+      -- })
     end,
   },
 }
+
+if vim.g.obsidian_workspace ~= nil then
+  -- Example:
+  -- vim.api.nvim_create_autocmd("User", {
+  --   group = vim.api.nvim_create_augroup("eden_local", { clear = true }),
+  --   pattern = "EdenLocalPre",
+  --   callback = function()
+  --     print("This is something else")
+  --     print("Again")
+  --     vim.g.obsidian_workspace = { {
+  --       name = "Codex",
+  --       path = "~/vaults/Codex/",
+  --     } }
+  --   end,
+  -- })
+  spec[#spec + 1] = {
+    "epwalsh/obsidian.nvim",
+    lazy = true,
+    ft = "markdown",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("obsidian").setup({
+        workspace = vim.g.obsidian_workspace,
+      })
+    end,
+  }
+end
+
+return spec
